@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ttp-app
+description: TTP Applications gPAS, gICS
+type: application
+version: 0.0.1
+appVersion: "2025.1"

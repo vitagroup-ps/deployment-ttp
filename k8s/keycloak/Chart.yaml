@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ttp-keycloak
+description: TTP Keycloak
+type: application
+version: 0.0.1
+appVersion: "2025.1"

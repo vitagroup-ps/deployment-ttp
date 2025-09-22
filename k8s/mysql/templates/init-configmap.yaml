@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ttp-msql-operator-init-sqls
+data:
+{{- $paths := .Files.Glob "sqls/*.sql" }}
+{{- range $path, $_ := $paths }}
+  {{ base $path }}: |
+{{ tpl ($.Files.Get $path) $ | indent 4 }}
+{{- end }}

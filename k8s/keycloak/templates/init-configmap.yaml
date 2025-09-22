@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ttp-keycloak-init-realms
+data:
+{{- $paths := .Files.Glob "realms/*.json" }}
+{{- range $path, $_ := $paths }}
+  {{ base $path }}: |
+{{ tpl ($.Files.Get $path) $ | indent 4 }}
+{{- end }}

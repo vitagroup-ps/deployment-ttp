@@ -1,0 +1,63 @@
+{
+	"type": "GPAS.GetOrCreatePseudonyms",
+	"clientId": "gPAS_Web",
+	"comment": "c",
+	"domain": "d",
+	"request": [
+		"v1",
+		"v2"
+	],
+	"pseudonymisationResult": {
+		"v1": "p1",
+		"v2": "p2"
+	}
+}
+
+{
+	"type": "GPAS.AnonymiseEntries",
+	"clientId": "gPAS_Web",
+	"comment": "c",
+	"domain": "d",
+	"request": [
+		"v1",
+		"v2"
+	],
+	"anonymisationResult": {
+		"v1": "SUCCESS",
+		"v2": "NOT_FOUND"
+	}
+}
+
+{
+	"type": "GPAS.DeleteEntries",
+	"clientId": "gPAS_Web",
+	"comment": "c",
+	"domain": "d",
+	"request": [
+		"v1",
+		"v2"
+	],
+	"deletionResult": {
+		"v1": "SUCCESS",
+		"v2": "NOT_FOUND"
+	}
+}
+
+{
+	"type": "GPAS.InsertValuePseudonymPairs",
+	"clientId": "gPAS_Web",
+	"comment": "c",
+	"domain": "d",
+	"insertionRequest": {
+		"v1": "p1",
+		"v2": "p2"
+	},
+	"insertionResult": [
+		{
+			"message": "failed",
+			"value": "v2",
+			"pseudonym": "p2",
+			"errorType": "VALUE_INVALID"
+		}
+	]
+}

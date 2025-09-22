@@ -1,0 +1,128 @@
+services:
+  ttp:
+    image: ghcr.io/vitagroup-ps/deployment-ttp:2025.1
+    container_name: ttp-app
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    environment:
+      TZ: Europe/Berlin
+      
+      # Logging
+      TTP_LOG_TO: CONSOLE
+      TTP_LOG_LEVEL: DEBUG
+      TTP_AUTH_LOG_TO: CONSOLE
+      TTP_AUTH_LOG_LEVEL: DEBUG
+      TTP_WEB_LOG_TO: CONSOLE
+      TTP_WEB_LOG_LEVEL: INFO
+      TTP_FHIR_LOG_TO: CONSOLE
+      TTP_FHIR_LOG_LEVEL: DEBUG
+      TTP_GPAS_LOG_TO: CONSOLE
+      TTP_GPAS_LOG_LEVEL: DEBUG
+      TTP_GICS_LOG_TO: CONSOLE
+      TTP_GICS_LOG_LEVEL: DEBUG
+
+      # Keycloak WEB
+      TTP_GPAS_WEB_AUTH_MODE: keycloak
+      TTP_GICS_WEB_AUTH_MODE: keycloak
+      TTP_WEB_KEYCLOAK_REALM: ttp
+      TTP_WEB_KEYCLOAK_CLIENT_ID: ttp-web
+      TTP_WEB_KEYCLOAK_CLIENT_SECRET: J4seMBlUF4hHHWNVY9UhGOinsr65XSyz
+      TTP_WEB_KEYCLOAK_SERVER_URL: http://keycloak:8091
+      TTP_WEB_KEYCLOAK_SSL_REQUIRED: none
+
+      # Keycloak SOAP
+      TTP_GPAS_SOAP_KEYCLOAK_ENABLE: true
+      TTP_GICS_SOAP_KEYCLOAK_ENABLE: true
+      TTP_SOAP_KEYCLOAK_REALM: ttp
+      TTP_SOAP_KEYCLOAK_CLIENT_ID: ttp-soap
+      TTP_SOAP_KEYCLOAK_CLIENT_SECRET: rlNJFPRVdMZStmzls9efPyMb2oGmRRNQ
+      TTP_SOAP_KEYCLOAK_SERVER_URL: http://keycloak:8091
+      TTP_SOAP_KEYCLOAK_SSL_REQUIRED: none
+
+      # Keycloak FHIR
+      TTP_FHIR_KEYCLOAK_ENABLE: true
+      TTP_FHIR_KEYCLOAK_REALM: ttp
+      TTP_FHIR_KEYCLOAK_CLIENT_ID: ttp-fhir
+      TTP_FHIR_KEYCLOAK_CLIENT_SECRET: lbJOPUKb2bzanUg7Bi5jbV17Kg6IZOvE
+      TTP_FHIR_KEYCLOAK_SERVER_URL: http://keycloak:8091
+      TTP_FHIR_KEYCLOAK_SSL_REQUIRED: none
+
+      # Keycloak roles
+      # gPAS web roles are defaults: role.gpas.<user|admin>
+      TTP_GPAS_SOAP_ROLE_USER_NAME: role.gpas.soap.user
+      TTP_GPAS_SOAP_ROLE_ADMIN_NAME: role.gpas.soap.admin
+      TTP_FHIR_KEYCLOAK_ROLE_GPAS_USER: role.gpas.fhir.user
+      TTP_FHIR_KEYCLOAK_ROLE_GPAS_ADMIN: role.gpas.fhir.admin
+
+      # gICS web roles are defaults: role.gics.<user|admin>
+      TTP_GICS_SOAP_ROLE_USER_NAME: role.gics.soap.user
+      TTP_GICS_SOAP_ROLE_ADMIN_NAME: role.gics.soap.admin
+      TTP_FHIR_KEYCLOAK_ROLE_GICS_USER: role.gics.fhir.user
+      TTP_FHIR_KEYCLOAK_ROLE_GICS_ADMIN: role.gics.fhir.admin
+
+      # gPAS
+      TTP_GPAS_WEB_CONTEXT: gpas-web
+      TTP_GPAS_SOAP_CONTEXT: gpas
+
+      TTP_GPAS_DB_HOST: mysql
+      TTP_GPAS_DB_PORT: 3306
+      TTP_GPAS_DB_NAME: gpas
+      TTP_GPAS_DB_USER: gpas_user
+      TTP_GPAS_DB_PASS: gpas_password
+
+      # gICS
+      TTP_GICS_WEB_CONTEXT: gics-web
+      TTP_GICS_SOAP_CONTEXT: gics
+
+      TTP_GICS_DB_HOST: mysql
+      TTP_GICS_DB_PORT: 3306
+      TTP_GICS_DB_NAME: gics
+      TTP_GICS_DB_USER: gics_user
+      TTP_GICS_DB_PASS: gics_password
+
+      # FHIR
+      TTP_FHIR_GICS_ENDPOINT_ENABLED: TRUE
+      TTP_FHIR_GPAS_ENDPOINT_ENABLED: TRUE
+    depends_on:
+      - mysql
+    entrypoint: /bin/bash
+    command: -c "./wait-for-it.sh mysql:3306 -t 120 && ./run.sh"
+    networks:
+      - internet
+  
+  mysql:
+    image: mysql:8
+    container_name: ttp-mysql
+    environment:
+      TZ: Europe/Berlin
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./sqls:/docker-entrypoint-initdb.d
+      - ./db:/var/lib/mysql
+    command: --max_allowed_packet=20M --default-time-zone=Europe/Berlin
+    networks:
+      - internet
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    container_name: keycloak
+    command: "start-dev --import-realm"
+    ports:
+      - "8091:8091"
+    environment:
+      TZ: Europe/Berlin
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      #KC_HTTP_RELATIVE_PATH: /auth
+      KC_HTTP_PORT: 8091
+      KC_HOSTNAME: keycloak
+      KC_LOG_LEVEL: info
+    volumes:
+      - ./keycloak/realms:/opt/keycloak/data/import
+    networks:
+      - internet
+
+networks:
+  internet:
+    driver: bridge

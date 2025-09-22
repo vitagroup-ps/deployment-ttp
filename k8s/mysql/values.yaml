@@ -1,0 +1,25 @@
+mysqlOperator:
+  enabled: true
+
+mysqlInnodbcluster:
+  enabled: true
+
+  serverInstances: 1
+  routerInstances: 1
+  tls:
+    useSelfSigned: true
+  credentials:
+    root:
+      user: root
+      password: root
+      host: "%"
+    gpas:
+      user: gpas_user
+      password: gpas_password
+    gics:
+      user: gics_user
+      password: gics_password
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 2Gi

@@ -1,0 +1,286 @@
+{
+    "resourceType": "ExchangeFormatDefinition",
+    "meta": {
+        "profile": [
+            "http://example.com/StructureDefinition/dontuse#ExchangeFormatDefinition"
+        ]
+    },
+    "supportedVersion": "2024.3.0",
+    "domain": {
+        "name": "MII",
+        "finalized": true,
+        "label": "MII",
+        "comment": "Medizininformatik Initiative",
+        "signerIdType": [
+            "Pseudonym"
+        ],
+        "policyVersionConverter": "org.emau.icmvc.ganimed.ttp.cm2.version.MajorMinorVersionConverter",
+        "moduleVersionConverter": "org.emau.icmvc.ganimed.ttp.cm2.version.MajorMinorVersionConverter",
+        "consentTemplateVersionConverter": "org.emau.icmvc.ganimed.ttp.cm2.version.MajorMinorCharVersionConverter",
+        "config": {
+            "qualityControl": {
+                "types": [
+                    {
+                        "id": "checked_minor_faults",
+                        "status": "VALID"
+                    },
+                    {
+                        "id": "checked_no_faults",
+                        "status": "VALID"
+                    },
+                    {
+                        "id": "###_auto_generated_###",
+                        "status": "VALID"
+                    },
+                    {
+                        "id": "not_checked",
+                        "status": "VALID"
+                    },
+                    {
+                        "id": "checked_major_faults",
+                        "status": "INVALID"
+                    },
+                    {
+                        "id": "invalidated",
+                        "status": "INVALID"
+                    }
+                ],
+                "defaultType": "not_checked"
+            },
+            "statistic": {
+                "calculateDocumentDetails": true,
+                "calculatePolicyDetails": false
+            },
+            "policies": {
+                "permanentRevoke": false,
+                "takeHighestVersionInsteadOfNewest": false,
+                "takeMostSpecificValidityInsteadOfShortest": false
+            },
+            "scans": {
+                "mandatory": false,
+                "sizeLimit": 20971520
+            },
+            "notifications": {
+                "sendFromWeb": false
+            },
+            "application": {
+                "enableChromePdfExport": false,
+                "templateTypes": [
+                    "REVOCATION",
+                    "REFUSAL",
+                    "CONSENT"
+                ]
+            }
+        },
+        "externProperties": "fhirForceProfileConsent=https://www.medizininformatik-initiative.de/fhir/modul-consent/StructureDefinition/mii-pr-consent-einwilligung;fhirSafeSignerIdType = Pseudonym",
+        "creationDate": "2025-01-20T15:19:05+01:00"
+    },
+    "policiesConsentPolicy": [
+        {
+            "domainName": "MII",
+            "name": "PATDAT_erheben_nutzen_kontakt_acribis",
+            "label": "PATDAT erheben nutzen kontakt acribis",
+            "version": "1.0",
+            "comment": "PATDAT erheben, nutzen, Kontaktierung im Acribis-Projekt",
+            "externProperties": "fhirPolicyCode=2.16.840.1.113883.3.1937.777.24.5.3.58",
+            "finalized": false
+        },
+        {
+            "domainName": "MII",
+            "name": "MDAT Hausarzt erheben speichern verarbeiten nutzen acribis",
+            "label": "MDAT Hausarzt erheben speichern verarbeiten nutzen acribis",
+            "version": "1.0",
+            "comment": "MDAT Hausarzt erheben, speichern, verarbeiten, nutzen im Acribis-Projekt",
+            "externProperties": "fhirPolicyCode=2.16.840.1.113883.3.1937.777.24.5.3.62",
+            "finalized": false
+        },
+        {
+            "domainName": "MII",
+            "name": "IDAT Melderegister abfragen speichern verarbeiten acribis",
+            "label": "IDAT Melderegister abfragen speichern verarbeiten acribis",
+            "version": "1.0",
+            "comment": "Anschrift und Vitalstatus Melderegister abfragen, speichern, verarbeiten im Acribis-Projekt",
+            "externProperties": "fhirPolicyCode=2.16.840.1.113883.3.1937.777.24.5.3.60",
+            "finalized": false
+        }
+    ],
+    "modulesConsentModule": [
+        {
+            "domainName": "MII",
+            "name": "Widerrufsrecht_acribis",
+            "label": "Widerrufsrecht_acribis",
+            "version": "1.0",
+            "title": "<div style=\"text-align: justify;\"><br/></div><h3>4. Widerrufsrecht</h3>",
+            "text": "<div style=\"text-align: justify;\">Meine Einwilligung ist <strong>freiwillig</strong>!</div><div style=\"text-align: justify;\">Ich kann meine Einwilligung jederzeit ohne Angabe von Gründen bei <span style=\"background-color: rgb(240, 102, 102);\">[der/dem Name der behandelnden Einrichtung]</span> vollständig oder in Teilen widerrufen, ohne dass mir irgendwelche Nachteile entstehen.&nbsp;</div><div style=\"text-align: justify;\">Beim Widerruf werden die auf Grundlage dieser Einwilligung gespeicherten Daten gelöscht oder anonymisiert, sofern dies gesetzlich zulässig ist. Daten aus bereits durchgeführten Analysen können nicht mehr entfernt werden (Punkt 4 der Patienteninformation).</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><strong>Ich wurde über die Nutzung meiner Patientendaten sowie die damit verbundenen Risiken informiert und erteile im vorgenannten Rahmen meine Einwilligung. Ich hatte ausreichend Bedenkzeit und alle meine Fragen wurden zufriedenstellend beantwortet.</strong></div><div style=\"text-align: justify;\"><strong>Ich wurde darüber informiert, dass ich ein Exemplar der Patienteninformation und eine Kopie der unterschriebenen Einwilligungserklärung erhalten werde.</strong></div><div><br></div><div><br></div>",
+            "finalized": true
+        },
+        {
+            "domainName": "MII",
+            "name": "Z2_PATDAT_erheben_nutzen_kontakt_acribis",
+            "label": "Z2_PATDAT_erheben_nutzen_kontakt_acribis",
+            "version": "1.0",
+            "text": "<div style=\"border:2px solid #000;padding: 10px\"><div>Ich bin mit der zusätzlichen Datenerhebung nach etwa 12 Monaten und der wissenschaftlichen Nutzung diese Daten analog zu meinen sonstigen Patientendaten einverstanden. Im Falle der Kontaktierung per Email bin ich mit damit einverstanden, dass die E-Mail-Kontaktaufnahme unverschlüsselt erfolgt, solange hierbei keine Gesundheitsdaten übermittelt werden.</div></div><div><br></div>",
+            "policiesAssignedConsentPolicy": [
+                {
+                    "policyKey": "MII;PATDAT_erheben_nutzen_kontakt_acribis;1.0"
+                }
+            ],
+            "externProperties": "fhirQuestionCode=2.16.840.1.113883.3.1937.777.24.2.4032",
+            "finalized": true
+        },
+        {
+            "domainName": "MII",
+            "name": "Z2_MDAT_Hausarzt_erheben_speichern_verarbeiten_nutzen_acribis",
+            "label": "Z2_MDAT_Hausarzt_erheben_speichern_verarbeiten_nutzen_acribis",
+            "version": "1.0",
+            "title": "<h3><br></h3><h3>Z.2.3 Kontaktaufnahme der/s Hausärztin/Hausarzt und Schweigepflichtsentbindung</h3>",
+            "text": "<div style=\"border:2px solid #000;padding: 10px\"><div style=\"text-align: justify;\">Bei Nicht-Erreichbarkeit zur Nachbefragung darf mein behandelnder Hausarzt/ meine behandelnde Hausärztin durch das ACRIBiS Studienteam am Universitätsklinikum Bonn kontaktiert werden. Ich bin einverstanden, dass er dem ACRIBiS Studienteam am Universitätsklinikum Bonn einen Arztbrief zur Erhebung von Krankenhausaufenthalten, deren Ursachen (Diagnosen) sowie, im Falles meines Versterbens, zur Erhebung der Todesursache übermitteln. Ausschließlich zu diesen Zwecken entbinde ich meinen Hausarzt/meine Hausärztin von der ärztlichen Schweigepflicht.</div></div><div><br></div>",
+            "policiesAssignedConsentPolicy": [
+                {
+                    "policyKey": "MII;MDAT Hausarzt erheben speichern verarbeiten nutzen acribis;1.0"
+                }
+            ],
+            "externProperties": "fhirQuestionCode=2.16.840.1.113883.3.1937.777.24.2.4034",
+            "finalized": true
+        },
+        {
+            "domainName": "MII",
+            "name": "Kontaktdaten",
+            "label": "Kontaktdaten",
+            "version": "1.0",
+            "text": "<div><br></div><div><strong>Meine bevorzugten Kontaktdaten:</strong></div>",
+            "finalized": true
+        },
+        {
+            "domainName": "MII",
+            "name": "Z2_PATDAT_erheben_nutzen_kontakt_intro_acribis",
+            "label": "Z2_PATDAT_erheben_nutzen_kontakt_intro_acribis",
+            "version": "1.0",
+            "title": "<h3>Z.2.1 Zusätzliche Datenerhebung</h3>",
+            "text": "<div style=\"text-align: justify;\">12 Monate nach dem zur Studienteilnahme qualifizierenden Krankenhausaufenthalt ist eine Nachbefragung und ggf. App-basierte Datenerhebung vorgesehen. Diese zusätzliche Datenerhebung kann im Rahmen eines Routinebesuches am behandelnden Zentrum, telefonisch, postalisch oder in elektronischer Form erfolgen.</div><div><br></div>",
+            "finalized": true
+        },
+        {
+            "domainName": "MII",
+            "name": "Z2_IDAT_Melderegister_abfragen_speichern_verarbeiten_acribis",
+            "label": "Z2_IDAT_Melderegister_abfragen_speichern_verarbeiten_acribis",
+            "version": "1.0",
+            "title": "<h3><br/></h3><h3>Z.2.2 Melderegisterauskunft</h3>",
+            "text": "<div style=\"border:2px solid #000;padding: 10px\"><div style=\"text-align: justify;\">Ist eine Kontaktaufnahme zum Follow-Up gescheitert, bin ich damit einverstanden, dass meine Anschrift im Falle einer Veränderung sowie ggf. mein Vitalstatus auch mit Hilfe einer Melderegisterauskunft beim zuständigen Einwohnermeldeamt erfragt werden darf.</div></div><div><br></div>",
+            "policiesAssignedConsentPolicy": [
+                {
+                    "policyKey": "MII;IDAT Melderegister abfragen speichern verarbeiten acribis;1.0"
+                }
+            ],
+            "externProperties": "fhirQuestionCode=2.16.840.1.113883.3.1937.777.24.2.4033",
+            "finalized": true
+        },
+        {
+            "domainName": "MII",
+            "name": "Geltungsdauer_acribis",
+            "label": "Geltungsdauer_acribis",
+            "version": "1.0",
+            "title": "<h3 style=\"text-align: justify;\"><br></h3><h3>3. Geltungsdauer meiner Einwilligung</h3>",
+            "text": "<div style=\"text-align: justify;\">Meine Einwilligung in die Erhebung von Patientendaten bei Aufenthalten <span style=\"background-color: rgb(240, 102, 102);\">[in der/im Name der behandelnden Einrichtung</span>] gilt für einen <strong>Zeitraum von fünf Jahren</strong> ab meiner Einwilligungserklärung. Sollte ich nach Ablauf von fünf Jahren wieder im<span style=\"background-color: rgb(230, 0, 0);\"> [Universitätsklinikum]</span> vorstellig werden, kann ich erneut meine Einwilligung erteilen. Die Nutzung der von mir erhobenen Daten bleibt über diesen Zeitraum hinaus zulässig (Punkt 5 der Patienteninformation).</div>",
+            "finalized": true
+        }
+    ],
+    "templatesConsentTemplate": [
+        {
+            "domainName": "MII",
+            "Name": "Patienteneinwilligung MII Acribis",
+            "Label": "Ergänzende Patienteneinwilligung MII Acribis",
+            "version": "1.3.a",
+            "type": "CONSENT",
+            "title": "<h1>Ergänzende Einwilligungserklärung - Patientin/Patient</h1><div><br/></div>",
+            "comment": "Aktualisiert am 2025-01-15, Ergänzende Einwilligungserklärung Acribis",
+            "header": "<h2 style=\"text-align: justify;\">Einwilligung in die Nutzung von Patientendaten für medizinische Forschungszwecke - Zusätzliche Kontaktaufnahme und Datenerhebung für ACRIBIS</h2><div><br/></div>",
+            "expirationProperties": "VALIDITY_PERIOD=P30Y;",
+            "externProperties": "study=mii;optional=false;orderNr=1;fhirForceProfileConsent=https://www.medizininformatik-initiative.de/fhir/modul-consent/StructureDefinition/mii-pr-consent-einwilligung;fhirPolicyValueSet=urn:oid:2.16.840.1.113883.3.1937.777.24.5.3;fhirAnswerCodeSystem=2.16.840.1.113883.3.1937.777.24.5.2;fhirAnswerValueSet=https://www.medizininformatik-initiative.de/fhir/ValueSet/MiiConsentAnswerValueSet;fhirAnswerCodeYes=2.16.840.1.113883.3.1937.777.24.5.2.1;fhirAnswerCodeNo=2.16.840.1.113883.3.1937.777.24.5.2.2;fhirAnswerCodeUnknown=2.16.840.1.113883.3.1937.777.24.5.2.3;fhirAnswerDisplayYes=gültig;fhirAnswerDisplayNo=ungültig;fhirAnswerDisplayUnknown=unbekannt;fhirPolicyUri=urn:oid:2.16.840.1.113883.3.1937.777.24.2.4031;fhirConsentCategory=2.16.840.1.113883.3.1937.777.24.2.184",
+            "freetextConsentTemplateFreeText": [
+                {
+                    "Name": "E-Mail",
+                    "type": "STRING",
+                    "converterString": "dd.MM.yyyy",
+                    "required": false,
+                    "label": "E-Mail:",
+                    "position": 2
+                },
+                {
+                    "Name": "Anschrift",
+                    "type": "STRING",
+                    "converterString": "dd.MM.yyyy",
+                    "required": false,
+                    "label": "Anschrift:",
+                    "position": 1
+                },
+                {
+                    "Name": "Telefonnummer",
+                    "type": "STRING",
+                    "converterString": "dd.MM.yyyy",
+                    "required": false,
+                    "label": "Telefonnummer:",
+                    "position": 0
+                }
+            ],
+            "modulesAssignedConsentModule": [
+                {
+                    "defaultConsentStatus": "NOT_CHOSEN",
+                    "mandatory": false,
+                    "moduleKey": "MII;Widerrufsrecht_acribis;1.0",
+                    "orderNumber": 5
+                },
+                {
+                    "defaultConsentStatus": "NOT_ASKED",
+                    "displayCheckBoxes": [
+                        "ACCEPTED",
+                        "DECLINED"
+                    ],
+                    "mandatory": false,
+                    "moduleKey": "MII;Z2_PATDAT_erheben_nutzen_kontakt_acribis;1.0",
+                    "orderNumber": 1
+                },
+                {
+                    "defaultConsentStatus": "NOT_ASKED",
+                    "displayCheckBoxes": [
+                        "ACCEPTED",
+                        "DECLINED"
+                    ],
+                    "mandatory": false,
+                    "moduleKey": "MII;Z2_MDAT_Hausarzt_erheben_speichern_verarbeiten_nutzen_acribis;1.0",
+                    "orderNumber": 3
+                },
+                {
+                    "defaultConsentStatus": "NOT_ASKED",
+                    "mandatory": false,
+                    "moduleKey": "MII;Kontaktdaten;1.0",
+                    "orderNumber": 6
+                },
+                {
+                    "defaultConsentStatus": "NOT_CHOSEN",
+                    "mandatory": false,
+                    "moduleKey": "MII;Z2_PATDAT_erheben_nutzen_kontakt_intro_acribis;1.0",
+                    "orderNumber": 0
+                },
+                {
+                    "defaultConsentStatus": "NOT_ASKED",
+                    "displayCheckBoxes": [
+                        "ACCEPTED",
+                        "DECLINED"
+                    ],
+                    "mandatory": false,
+                    "moduleKey": "MII;Z2_IDAT_Melderegister_abfragen_speichern_verarbeiten_acribis;1.0",
+                    "orderNumber": 2
+                },
+                {
+                    "defaultConsentStatus": "NOT_CHOSEN",
+                    "mandatory": false,
+                    "moduleKey": "MII;Geltungsdauer_acribis;1.0",
+                    "orderNumber": 4
+                }
+            ],
+            "finalized": true,
+            "versionLabel": "1.3.1"
+        }
+    ]
+}

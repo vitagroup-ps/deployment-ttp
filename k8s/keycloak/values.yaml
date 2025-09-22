@@ -1,0 +1,23 @@
+timezone: "Europe/Berlin"
+
+keycloak:
+  name: ttp-keycloak
+  image: quay.io/keycloak/keycloak:24.0.3
+
+  service:
+    type: ClusterIP
+    ports: 
+      http: 8091 
+  
+  ingres:
+    host: keycloak
+
+  env:
+    KEYCLOAK_ADMIN: admin
+    KEYCLOAK_ADMIN_PASSWORD: admin
+
+    KC_HTTP_PORT: 8091
+    KC_HOSTNAME: keycloak
+    KC_LOG_LEVEL: info
+   
+  command: ["start-dev", "--import-realm"]

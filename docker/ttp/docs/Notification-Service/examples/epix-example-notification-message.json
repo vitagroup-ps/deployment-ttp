@@ -1,0 +1,12 @@
+{
+  "Master Person": {
+    "mpiId": "1001000077518",
+    "identityId": 7797
+  },
+  "Slave Person": {
+    "mpiId": "1001000006853",
+    "identityId": 729
+  },
+  "EPIX domain": "Demo",
+  "comment": "Tippfehler"
+}

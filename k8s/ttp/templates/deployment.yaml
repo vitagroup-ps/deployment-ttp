@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.ttp.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.ttp.name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Values.ttp.name }}
+    spec:
+      imagePullSecrets:
+        {{- range .Values.ttp.imagePullSecrets }}
+        - name: {{ .name }}
+        {{- end }}
+      containers:
+        - name: ttp
+          image: {{ .Values.ttp.image }}
+          ports:
+            - containerPort: {{ .Values.ttp.service.ports.http | default 8080 }}
+              name: http
+            - containerPort: {{ .Values.ttp.service.ports.mgmt | default 9990 }}
+              name: mgmt
+          env:
+            - name: TZ
+              value: {{ $.Values.timezone | quote }}
+            {{- range $k, $v := .Values.ttp.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          command: {{ toJson .Values.ttp.entrypoint }}
+          args: {{ toJson .Values.ttp.command }}

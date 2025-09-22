@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.keycloak.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.keycloak.name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Values.keycloak.name }}
+    spec:
+      containers:
+        - name: keycloak
+          image: "{{ .Values.keycloak.image }}"
+          ports:
+            - containerPort: {{ .Values.keycloak.service.ports.http }}
+              name: http
+          env:
+            - name: TZ
+              value: {{ $.Values.timezone | quote }}
+            {{- range $k, $v := .Values.keycloak.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          volumeMounts:
+            - name: ttp-keycloak-init-realms
+              mountPath: /opt/keycloak/data/import
+              readOnly: true
+          args: {{ toJson .Values.keycloak.command }}
+      volumes:
+        - name: ttp-keycloak-init-realms
+          configMap:
+            name: ttp-keycloak-init-realms

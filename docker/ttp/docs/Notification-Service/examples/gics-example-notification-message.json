@@ -1,0 +1,175 @@
+{
+  "consentKey": {
+    "consentTemplateKey": {
+      "domainName": "Demo Deutschland",
+      "name": "Test",
+      "version": "1.0"
+    },
+    "signerIds": [{
+      "fhirID": "81abc68b-e5ba-468f-84d3-98ff4ae362ff",
+      "idType": "studyPSN",
+      "id": "S-00007",
+      "creationDate": "2022-02-24 11:36:21",
+      "orderNumber": 0
+    }],
+    "consentDate": "2022-02-24 11:36:21"
+  },
+  "previousPolicyStates": [
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Biomaterial erheben",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Identifizierende Daten erheben",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Rekontaktierung Folgestudie",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Biomaterial lagern",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Medizinische Daten herausgeben",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Identifizierende Daten speichern",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Biomaterial herausgeben",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Medizinische Daten erheben",
+        "version": "1.0"
+      },
+      "value": false
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Medizinische Daten speichern",
+        "version": "1.0"
+      },
+      "value": false
+    }
+  ],
+  "currentPolicyStates": [
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Biomaterial erheben",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Identifizierende Daten erheben",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Rekontaktierung Folgestudie",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Biomaterial lagern",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Medizinische Daten herausgeben",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Identifizierende Daten speichern",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Biomaterial herausgeben",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Medizinische Daten erheben",
+        "version": "1.0"
+      },
+      "value": true
+    },
+    {
+      "key": {
+        "domainName": "Demo Deutschland",
+        "name": "Medizinische Daten speichern",
+        "version": "1.0"
+      },
+      "value": true
+    }
+  ],
+  "type": "GICS.SetQcForConsent",
+  "clientId": "gICS_Web",
+  "context": {
+    "qc": {
+      "qcPassed": true,
+      "type": "checked_no_faults",
+      "inspector": "ich",
+      "comment": "Prima"
+    }
+  }
+}
