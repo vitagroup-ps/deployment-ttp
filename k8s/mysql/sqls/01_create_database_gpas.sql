@@ -83,5 +83,5 @@ CREATE VIEW `psn_domain_count` AS
         `d`.`name` != 'internal_anonymisation_domain'
     GROUP BY `d`.`name`;
 
-CREATE USER '{{ .Values.mysqlInnodbcluster.credentials.gpas.user }}'@'%' IDENTIFIED BY '{{ .Values.mysqlInnodbcluster.credentials.gpas.password }}';
-GRANT ALL ON gpas.* TO '{{ .Values.mysqlInnodbcluster.credentials.gpas.user }}'@'%';
+CREATE USER '${GPAS_USER}'@'%' IDENTIFIED BY '${GPAS_PASSWORD}';
+GRANT ALL ON gpas.* TO '${GPAS_USER}'@'%';

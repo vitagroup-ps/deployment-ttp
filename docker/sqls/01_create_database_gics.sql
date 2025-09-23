@@ -1033,5 +1033,5 @@ CREATE  TABLE IF NOT EXISTS `stat_value` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-create user 'gics_user'@'%' identified by 'gics_password';
-grant all on gics.* to 'gics_user'@'%';
+CREATE USER 'gics_user'@'%' IDENTIFIED BY 'gics_password';
+GRANT ALL ON gics.* TO 'gics_user'@'%';

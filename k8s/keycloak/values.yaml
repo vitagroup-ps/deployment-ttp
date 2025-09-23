@@ -4,20 +4,27 @@ keycloak:
   name: ttp-keycloak
   image: quay.io/keycloak/keycloak:24.0.3
 
+  ingress:
+    host: keycloak
+    tls:
+      enabled: false
+      secret: tls-secret-ref
+
   service:
     type: ClusterIP
     ports: 
       http: 8091 
-  
-  ingres:
-    host: keycloak
 
   env:
-    KEYCLOAK_ADMIN: admin
-    KEYCLOAK_ADMIN_PASSWORD: admin
-
     KC_HTTP_PORT: 8091
     KC_HOSTNAME: keycloak
     KC_LOG_LEVEL: info
+  
+  secretEnv:
+    KEYCLOAK_ADMIN: admin # preferably leave empty and set as externalSecret
+    KEYCLOAK_ADMIN_PASSWORD: admin # preferably leave empty and set as externalSecret
+
+  secretName: ttp-keycloak-secret-ref
+  useExternalSecret: false
    
   command: ["start-dev", "--import-realm"]

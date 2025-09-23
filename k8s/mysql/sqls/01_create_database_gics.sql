@@ -1034,5 +1034,5 @@ CREATE  TABLE IF NOT EXISTS `stat_value` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-create user '{{ .Values.mysqlInnodbcluster.credentials.gics.user }}'@'%' identified by '{{ .Values.mysqlInnodbcluster.credentials.gics.password }}';
-grant all on gics.* to '{{ .Values.mysqlInnodbcluster.credentials.gics.user }}'@'%';
+CREATE USER '${GICS_USER}'@'%' IDENTIFIED BY '${GICS_PASSWORD}';
+GRANT ALL ON gics.* TO '${GICS_USER}'@'%';

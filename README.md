@@ -64,7 +64,7 @@ Add the following entries to your `/etc/hosts`:
 127.0.0.1   ttp
 ```
 
-Start `minikube` and enable ingres:
+Start `minikube` and enable ingress:
 
 ```bash
 minikube start
@@ -85,7 +85,7 @@ All the following installations are executed in the namespace "ttp".
 
 ```bash
 helm dependency build
-helm upgrade --install ttp-mysql ./ -n ttp --create-namespace # --create-namespace only if it not exists yet
+helm upgrade --install ttp-mysql ./ -n ttp --create-namespace
 
 kubectl get pods,deploy,sts,job,pvc,svc,ing -n ttp # check deployment progress
 kubectl logs -f <podname> -n ttp # follow pod logs
@@ -97,7 +97,7 @@ The MySQL router should be accessible in the namespace `ttp` via `ttp-mysql.ttp.
 
 ```bash
 kubectl run -it --rm mysql-client --image=mysql:8.0 -n ttp --restart=Never -- \
-  mysql -h ttp-mysql.ttp.svc.cluster.local -P 3306 -u root -p root
+  mysql -h ttp-mysql.ttp.svc.cluster.local -P 3306 -uroot -proot
 ```
 
 Check if the demo data is created in gICS and gPAS:

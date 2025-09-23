@@ -17,8 +17,9 @@ spec:
         - name: {{ .name }}
         {{- end }}
       containers:
-        - name: ttp
+        - name: {{ .Values.ttp.name }}
           image: {{ .Values.ttp.image }}
+          
           ports:
             - containerPort: {{ .Values.ttp.service.ports.http | default 8080 }}
               name: http
@@ -27,9 +28,21 @@ spec:
           env:
             - name: TZ
               value: {{ $.Values.timezone | quote }}
+            
+            # ENV
             {{- range $k, $v := .Values.ttp.env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
+            
+            # Secret ENV
+            {{- range $k, $v := .Values.ttp.envSecret }}
+            - name: {{ $k }}
+              valueFrom:
+                  secretKeyRef:
+                    name: {{ $.Values.ttp.secretName }}
+                    key: {{ $k }}
+            {{- end }}
+          
           command: {{ toJson .Values.ttp.entrypoint }}
           args: {{ toJson .Values.ttp.command }}

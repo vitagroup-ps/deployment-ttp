@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ttp-keycloak-init-realms
+  name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
 data:
-{{- $paths := .Files.Glob "realms/*.json" }}
+{{- $paths := .Files.Glob "sqls/*.sql" }}
 {{- range $path, $_ := $paths }}
   {{ base $path }}: |
 {{ tpl ($.Files.Get $path) $ | indent 4 }}

@@ -21,16 +21,27 @@ spec:
           env:
             - name: TZ
               value: {{ $.Values.timezone | quote }}
+            
+            # ENV
             {{- range $k, $v := .Values.keycloak.env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
+            
+            # Secret ENV
+            {{- range $k, $v := .Values.keycloak.envSecret }}
+            - name: {{ $k }}
+              valueFrom:
+                  secretKeyRef:
+                    name: {{ $.Values.keycloak.secretName }}
+                    key: {{ $k }}
+            {{- end }}
           volumeMounts:
-            - name: ttp-keycloak-init-realms
+            - name: {{ .Values.keycloak.name }}-realms
               mountPath: /opt/keycloak/data/import
               readOnly: true
           args: {{ toJson .Values.keycloak.command }}
       volumes:
-        - name: ttp-keycloak-init-realms
+        - name: {{ .Values.keycloak.name }}-realms
           configMap:
-            name: ttp-keycloak-init-realms
+            name: {{ .Values.keycloak.name }}-realms

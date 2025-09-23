@@ -1,0 +1,96 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: mysql-init-templates
+          image: alpine:3.20
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              apk add --no-cache gettext > /dev/null
+              for f in /templates/*.sql; do
+                [ -e "$f" ] || continue
+                echo "Rendering $f"
+                envsubst < "$f" > "/sqls/$(basename "$f")"
+              done
+          env:
+          {{- range $k, $v := .Values.mysqlInnodbcluster.envSecret }}
+            - name: {{ $k }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.mysqlInnodbcluster.secretName }}
+                  key: {{ $k }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
+              mountPath: /templates
+            - name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+              mountPath: /sqls
+      containers:
+        - name: mysql-init
+          image: mysql:8
+          command: ["/bin/sh","-lc"]
+          args:
+            - |
+              set -e
+
+              echo "Waiting for MySQL Router at $HOST:3306 ..."
+              for i in $(seq 1 500); do
+                mysqladmin ping -h "$HOST" --silent && break
+                sleep 2
+              done
+
+              # Check if bootstrap already ran
+              HAS_MARK=$(mysql -h "$HOST" -P 3306 -u "$ROOT_USER" -p"$ROOT_PASSWORD" -N -B \
+                -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'bootstrap_meta' AND table_name = 'applied';" || echo 0)
+
+              if [ "$HAS_MARK" -eq 0 ]; then
+                echo "First-time setup detected. Bootstrapping..."
+                mysql -h "$HOST" -P 3306 -u "$ROOT_USER" -p"$ROOT_PASSWORD" -e "
+                  CREATE DATABASE IF NOT EXISTS bootstrap_meta;
+                  CREATE TABLE IF NOT EXISTS bootstrap_meta.applied (id INT PRIMARY KEY);"
+
+                echo "Applying SQL files..."
+                for f in /sqls/*.sql; do
+                  echo "Running $f ..."
+                  mysql -h "$HOST" -P 3306 -u "$ROOT_USER" -p"$ROOT_PASSWORD" < "$f"
+                done
+
+                mysql -h "$HOST" -P 3306 -u "$ROOT_USER" -p"$ROOT_PASSWORD" -e "
+                  INSERT INTO bootstrap_meta.applied (id) VALUES (1);"
+
+                echo "All SQL applied."
+              else
+                echo "Bootstrap already applied. Skipping."
+              fi
+          env:
+            - name: HOST
+              value: {{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local
+            - name: ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysqlInnodbcluster.secretName }}
+                  key: ROOT_USER
+            - name: ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysqlInnodbcluster.secretName }}
+                  key: ROOT_PASSWORD
+          volumeMounts:
+            - name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+              mountPath: /sqls
+      volumes:
+        - name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
+          configMap:
+            name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
+        - name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+          emptyDir: {}
