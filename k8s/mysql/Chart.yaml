@@ -10,9 +10,7 @@ dependencies:
     alias: mysqlOperator
     repository: https://mysql.github.io/mysql-operator
     version: ">=2.0.0 <3.0.0"
-    condition: mysqlOperator.enabled
   - name: mysql-innodbcluster
     alias: mysqlInnodbcluster
     repository: https://mysql.github.io/mysql-operator
     version: ">=2.0.0 <3.0.0"
-    condition: mysqlInnodbcluster.enabled

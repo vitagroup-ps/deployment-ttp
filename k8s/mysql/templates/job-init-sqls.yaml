@@ -1,7 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+  name: {{ template "ttp-mysql.fullname" . }}-init-sqls
+  labels:
+    app: {{ template "ttp-mysql.name" . }}
+    chart: {{ template "ttp-mysql.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
@@ -31,9 +36,9 @@ spec:
                   key: {{ $k }}
           {{- end }}
           volumeMounts:
-            - name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
+            - name: {{ template "ttp-mysql.fullname" . }}-init-sql-templates
               mountPath: /templates
-            - name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+            - name: {{ template "ttp-mysql.fullname" . }}-init-sqls
               mountPath: /sqls
       containers:
         - name: mysql-init
@@ -86,11 +91,11 @@ spec:
                   name: {{ .Values.mysqlInnodbcluster.secretName }}
                   key: ROOT_PASSWORD
           volumeMounts:
-            - name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+            - name: {{ template "ttp-mysql.fullname" . }}-init-sqls
               mountPath: /sqls
       volumes:
-        - name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
+        - name: {{ template "ttp-mysql.fullname" . }}-init-sql-templates
           configMap:
-            name: {{ .Values.mysqlInnodbcluster.name }}-init-sql-templates
-        - name: {{ .Values.mysqlInnodbcluster.name }}-init-sqls
+            name: {{ template "ttp-mysql.fullname" . }}-init-sql-templates
+        - name: {{ template "ttp-mysql.fullname" . }}-init-sqls
           emptyDir: {}

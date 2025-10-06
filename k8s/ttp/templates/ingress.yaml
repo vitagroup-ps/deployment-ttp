@@ -1,25 +1,30 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name:  {{ .Values.ttp.name }}
+  name: {{ template "ttp-app.fullname" . }}
+  labels:
+    app: {{ template "ttp-app.name" . }}
+    chart: {{ template "ttp-app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
-  {{- if .Values.ttp.ingress.tls.enabled }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        -  {{ .Values.ttp.ingress.host }}
-      secretName:  {{ .Values.ttp.ingress.tls.secret }}
+        -  {{ .Values.ingress.host }}
+      secretName:  {{ .Values.ingress.tls.secret }}
   {{- end }}
   rules:
-    - host:  {{ .Values.ttp.ingress.host }}
+    - host:  {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.ttp.name }}
+                name: {{ template "ttp-app.name" . }}
                 port:
-                  number: {{ .Values.ttp.service.ports.http }}
+                  number: {{ .Values.service.ports.http }}

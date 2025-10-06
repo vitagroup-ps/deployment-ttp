@@ -1,25 +1,30 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name:  {{ .Values.keycloak.name }}
+  name: {{ template "ttp-keycloak.fullname" . }}
+  labels:
+    app: {{ template "ttp-keycloak.name" . }}
+    chart: {{ template "ttp-keycloak.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
-  {{- if .Values.keycloak.ingress.tls.enabled }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        -  {{ .Values.keycloak.ingress.host }}
-      secretName:  {{ .Values.keycloak.ingress.tls.secret }}
+        -  {{ .Values.ingress.host }}
+      secretName:  {{ .Values.ingress.tls.secret }}
   {{- end }}
   rules:
-    - host:  {{ .Values.keycloak.ingress.host }}
+    - host:  {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.keycloak.name }}
+                name: {{ template "ttp-keycloak.name" . }}
                 port:
-                  number: {{ .Values.keycloak.service.ports.http }}
+                  number: {{ .Values.service.ports.http }}

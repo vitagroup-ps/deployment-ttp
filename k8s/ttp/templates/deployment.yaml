@@ -1,48 +1,73 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.ttp.name }}
+  name: {{ template "ttp-app.fullname" . }}
+  labels:
+    app: {{ template "ttp-app.name" . }}
+    chart: {{ template "ttp-app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.ttp.name }}
+      app: {{ template "ttp-app.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ .Values.ttp.name }}
+        app: {{ template "ttp-app.name" . }}
+        release: {{ .Release.Name }}
     spec:
       imagePullSecrets:
-        {{- range .Values.ttp.imagePullSecrets }}
+        {{- range .Values.imagePullSecrets }}
         - name: {{ .name }}
         {{- end }}
       containers:
-        - name: {{ .Values.ttp.name }}
-          image: {{ .Values.ttp.image }}
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image }}
           
           ports:
-            - containerPort: {{ .Values.ttp.service.ports.http | default 8080 }}
+            - containerPort: {{ .Values.service.ports.http | default 8080 }}
               name: http
-            - containerPort: {{ .Values.ttp.service.ports.mgmt | default 9990 }}
+            - containerPort: {{ .Values.service.ports.mgmt | default 9990 }}
               name: mgmt
+          
           env:
             - name: TZ
               value: {{ $.Values.timezone | quote }}
             
             # ENV
-            {{- range $k, $v := .Values.ttp.env }}
+            {{- range $k, $v := .Values.env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
             
             # Secret ENV
-            {{- range $k, $v := .Values.ttp.envSecret }}
+            {{- range $k, $v := .Values.envSecret }}
             - name: {{ $k }}
               valueFrom:
-                  secretKeyRef:
-                    name: {{ $.Values.ttp.secretName }}
-                    key: {{ $k }}
+                secretKeyRef:
+                  name: {{ $.Values.secretName }}
+                  key: {{ $k }}
             {{- end }}
           
-          command: {{ toJson .Values.ttp.entrypoint }}
-          args: {{ toJson .Values.ttp.command }}
+          command: {{ toJson .Values.entrypoint }}
+          args: {{ toJson .Values.command }}
+
+        {{- with .Values.resources }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+        {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

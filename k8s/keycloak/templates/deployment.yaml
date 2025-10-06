@@ -1,47 +1,75 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.keycloak.name }}
+  name: {{ template "ttp-keycloak.fullname" . }}
+  labels:
+    app: {{ template "ttp-keycloak.name" . }}
+    chart: {{ template "ttp-keycloak.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.keycloak.name }}
+      app: {{ template "ttp-keycloak.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ .Values.keycloak.name }}
+        app: {{ template "ttp-keycloak.name" . }}
+        release: {{ .Release.Name }}
     spec:
       containers:
         - name: keycloak
-          image: "{{ .Values.keycloak.image }}"
+          image: "{{ .Values.image }}"
           ports:
-            - containerPort: {{ .Values.keycloak.service.ports.http }}
+            - containerPort: {{ .Values.service.ports.http }}
               name: http
           env:
             - name: TZ
               value: {{ $.Values.timezone | quote }}
             
             # ENV
-            {{- range $k, $v := .Values.keycloak.env }}
+            {{- range $k, $v := .Values.env }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
             
             # Secret ENV
-            {{- range $k, $v := .Values.keycloak.envSecret }}
+            {{- range $k, $v := .Values.envSecret }}
             - name: {{ $k }}
               valueFrom:
-                  secretKeyRef:
-                    name: {{ $.Values.keycloak.secretName }}
-                    key: {{ $k }}
+                secretKeyRef:
+                  name: {{ $.Values.secretName }}
+                  key: {{ $k }}
             {{- end }}
+
           volumeMounts:
-            - name: {{ .Values.keycloak.name }}-realms
+            - name: {{ template "ttp-keycloak.fullname" . }}-realms
               mountPath: /opt/keycloak/data/import
               readOnly: true
-          args: {{ toJson .Values.keycloak.command }}
+
+          args: {{ toJson .Values.command }}
+        
+        {{- with .Values.resources }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+        {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      
       volumes:
-        - name: {{ .Values.keycloak.name }}-realms
+        - name: {{ template "ttp-keycloak.fullname" . }}-realms
           configMap:
-            name: {{ .Values.keycloak.name }}-realms
+            name: {{ template "ttp-keycloak.fullname" . }}-realms
+  
