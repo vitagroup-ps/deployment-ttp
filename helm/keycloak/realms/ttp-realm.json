@@ -854,7 +854,7 @@
   }, {
     "id" : "89567f48-6ab0-4c2b-b014-97bc5ad197fd",
     "clientId" : "ttp-soap",
-    "name" : "",
+    "name" : "TTP SOAP",
     "description" : "",
     "rootUrl" : "",
     "adminUrl" : "",
