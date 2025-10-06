@@ -50,7 +50,7 @@ docker-compose up ttp
 > The `ttp-app` container sometimes fails on startup. If this happens, just start it again and it should work.
 
 
-# Using Helm Chart (folder k8s)
+# Using Helm Chart (folder helm)
 ## Prerequisites
 
 - `docker`
@@ -80,7 +80,7 @@ helm repo update
 
 All the following installations are executed in the namespace "ttp".
 
-## MySQL Database (folder k8s/mysql)
+## MySQL Database (folder helm/mysql)
 ### Install MySQL Operator
 
 ```bash
@@ -111,7 +111,7 @@ SELECT * FROM signer_id;
 ```
 
 
-## TTP Keycloak (folder k8s/keycloak)
+## TTP Keycloak (folder helm/keycloak)
 ### Install TTP Keycloak
 
 ```bash
@@ -124,7 +124,7 @@ kubectl logs -f <podname> -n ttp # follow pod logs
 The Keycloak should be accessible in the namespace `ttp` via `ttp-keycloak.ttp.svc.cluster.local:8091`.
 
 
-## TTP Tools (folder k8s/ttp)
+## TTP Tools (folder helm/ttp)
 ### Install TTP Tools
 
 Create the secrets containing the credentials to pull images from the GitHub Container Registry (GHCR):
