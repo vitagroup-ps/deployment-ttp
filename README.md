@@ -29,7 +29,7 @@ mkdir ./db
 Create docker images (only needed if new version should be released):
 
 ```bash
-docker build -t deployment-ttp:latest -t deployment-ttp:2025.1 -t ghcr.io/vitagroup-ps/deployment-ttp:latest -t ghcr.io/vitagroup-ps/deployment-ttp:2025.1 .
+docker buildx build --platform linux/amd64,linux/arm64 --tag deployment-ttp:latest --tag deployment-ttp:2025.1 --tag ghcr.io/vitagroup-ps/deployment-ttp:latest --tag ghcr.io/vitagroup-ps/deployment-ttp:2025.1 .
 ```
 
 Push docker images (only needed if new version should be released):
