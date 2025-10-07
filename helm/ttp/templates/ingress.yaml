@@ -9,6 +9,7 @@ metadata:
     heritage: {{ .Release.Service }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    
 spec:
   ingressClassName: nginx
   {{- if .Values.ingress.tls.enabled }}
