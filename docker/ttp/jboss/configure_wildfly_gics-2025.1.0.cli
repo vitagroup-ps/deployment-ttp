@@ -191,7 +191,6 @@ if (result ~= "(?i)(gras)") of :resolve-expression(expression=$authMode)
         --redeploy-affected
 end-if
 
-
 # KeyCloak-Authentication for WEB
 ##################################
 if (result ~= "(?i)(keycloak-json)") of :resolve-expression(expression=$authMode)
