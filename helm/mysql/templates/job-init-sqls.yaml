@@ -3,12 +3,12 @@ kind: Job
 metadata:
   name: {{ template "ttp-mysql.fullname" . }}-init-sqls
   labels:
-    app: {{ template "ttp-mysql.fullname" . }}
+    app: {{ template "ttp-mysql.name" . }}
     chart: {{ template "ttp-mysql.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   template:

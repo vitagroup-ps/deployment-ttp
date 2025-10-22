@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: {{ template "ttp-keycloak.fullname" . }}
   labels:
-    app: {{ template "ttp-keycloak.fullname" . }}
+    app: {{ template "ttp-keycloak.name" . }}
     chart: {{ template "ttp-keycloak.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   selector:
-    app: {{ template "ttp-keycloak.fullname" . }}
+    app: {{ template "ttp-keycloak.name" . }}
     release: {{ .Release.Name }}
   ports:
     - name: http
