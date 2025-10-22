@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: {{ template "ttp-keycloak.fullname" . }}
   labels:
-    app: {{ template "ttp-keycloak.fullname" . }}
+    app: {{ template "ttp-keycloak.name" . }}
     chart: {{ template "ttp-keycloak.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
