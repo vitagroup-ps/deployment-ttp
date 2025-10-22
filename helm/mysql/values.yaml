@@ -21,8 +21,8 @@ mysqlInnodbcluster:
   externalSecret:
     enabled: true
     secretStoreRef:
-      name: "aws-secrets-manager"
-      kind: "ClusterSecretStore"
+      name: aws-secrets-manager
+      kind: ClusterSecretStore
     dataFrom:
       extract:
         key: ttp-mysql-secret-ref-external

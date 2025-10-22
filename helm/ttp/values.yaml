@@ -111,8 +111,8 @@ secretName: ttp-app-secret-ref-external
 externalSecret:
   enabled: true
   secretStoreRef:
-    name: "aws-secrets-manager"
-    kind: "ClusterSecretStore"
+    name: aws-secrets-manager
+    kind: ClusterSecretStore
   dataFrom:
     extract:
       key: ttp-app-secret-ref-external
