@@ -1,0 +1,26 @@
+mysqlInnodbcluster:
+  serverInstances: 1
+  routerInstances: 1
+
+  tls:
+    useSelfSigned: true
+
+  credentials:
+    root:
+      host: "%"
+      user: "root" # preferably leave empty and set as externalSecret
+      password: "root" # preferably leave empty and set as externalSecret
+
+  envSecret:
+    GPAS_USER: "gpas_user" # preferably leave empty and set as externalSecret
+    GPAS_PASSWORD: "gpas_password" # preferably leave empty and set as externalSecret
+    GICS_USER: "gics_user" # preferably leave empty and set as externalSecret
+    GICS_PASSWORD: "gics_password" # preferably leave empty and set as externalSecret
+
+  useExternalSecret: false
+  secretName: ttp-mysql-secret-ref
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 1Gi

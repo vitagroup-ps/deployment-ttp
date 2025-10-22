@@ -85,7 +85,7 @@ All the following installations are executed in the namespace "ttp".
 
 ```bash
 helm dependency build
-helm upgrade --install ttp-mysql ./ -n ttp --create-namespace
+helm upgrade --install ttp-mysql ./ -f values-local.yaml -n ttp --create-namespace
 
 kubectl get pods,deploy,sts,job,pvc,svc,ing -n ttp # check deployment progress
 kubectl logs -f <podname> -n ttp # follow pod logs

@@ -18,8 +18,11 @@ env:
   KC_HOSTNAME: keycloak
   KC_LOG_LEVEL: info
 
-envSecret: {}
-useExternalSecret: false
+envSecret:
+  KEYCLOAK_ADMIN: "" # value set by externalSecret
+  KEYCLOAK_ADMIN_PASSWORD: "" # value set by externalSecret
+
+useExternalSecret: true
 secretName: ttp-keycloak-secret-ref-external
   
 command: ["start-dev", "--import-realm"]

@@ -86,7 +86,27 @@ env:
   TTP_FHIR_GICS_ENDPOINT_ENABLED: "TRUE"
   TTP_FHIR_GPAS_ENDPOINT_ENABLED: "TRUE"
 
-envSecret: {}
+envSecret:
+  # Keycloak WEB
+  TTP_WEB_KEYCLOAK_CLIENT_ID: "" # value set by externalSecret
+  TTP_WEB_KEYCLOAK_CLIENT_SECRET: "" # value set by externalSecret
+
+  # Keycloak SOAP
+  TTP_SOAP_KEYCLOAK_CLIENT_ID: "" # value set by externalSecret
+  TTP_SOAP_KEYCLOAK_CLIENT_SECRET: "" # value set by externalSecret
+
+  # Keycloak FHIR
+  TTP_FHIR_KEYCLOAK_CLIENT_ID: "" # value set by externalSecret
+  TTP_FHIR_KEYCLOAK_CLIENT_SECRET: "" # value set by externalSecret
+
+  # gPAS
+  TTP_GPAS_DB_USER: "" # value set by externalSecret
+  TTP_GPAS_DB_PASS: "" # value set by externalSecret
+
+  # gICS
+  TTP_GICS_DB_USER: "" # value set by externalSecret
+  TTP_GICS_DB_PASS: "" # value set by externalSecret
+
 useExternalSecret: true
 secretName: ttp-app-secret-ref-external
 

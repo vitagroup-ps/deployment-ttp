@@ -8,17 +8,17 @@ mysqlInnodbcluster:
   credentials:
     root:
       host: "%"
-      user: "root" # preferably leave empty and set as externalSecret
-      password: "root" # preferably leave empty and set as externalSecret
+      user: "" # value set by externalSecret using key ROOT_USER
+      password: "" # value set by externalSecret using key ROOT_PASSWORD
 
   envSecret:
-    GPAS_USER: "gpas_user" # preferably leave empty and set as externalSecret
-    GPAS_PASSWORD: "gpas_password" # preferably leave empty and set as externalSecret
-    GICS_USER: "gics_user" # preferably leave empty and set as externalSecret
-    GICS_PASSWORD: "gics_password" # preferably leave empty and set as externalSecret
+    GPAS_USER: "" # value set by externalSecret
+    GPAS_PASSWORD: "" # value set by externalSecret
+    GICS_USER: "" # value set by externalSecret
+    GICS_PASSWORD: "" # value set by externalSecret
 
-  useExternalSecret: false
-  secretName: ttp-mysql-secret-ref
+  useExternalSecret: true
+  secretName: ttp-mysql-secret-ref-external
 
   persistence:
     enabled: true

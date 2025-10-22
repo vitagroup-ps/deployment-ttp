@@ -19,8 +19,8 @@ env:
   KC_LOG_LEVEL: info
 
 envSecret:
-  KEYCLOAK_ADMIN: "admin" # preferably leave empty and set as externalSecret
-  KEYCLOAK_ADMIN_PASSWORD: "admin" # preferably leave empty and set as externalSecret
+  KEYCLOAK_ADMIN: "admin"
+  KEYCLOAK_ADMIN_PASSWORD: "admin"
 
 useExternalSecret: false
 secretName: ttp-keycloak-secret-ref
