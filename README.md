@@ -115,7 +115,7 @@ SELECT * FROM signer_id;
 ### Install TTP Keycloak
 
 ```bash
-helm upgrade --install ttp-keycloak ./ -n ttp
+helm upgrade --install ttp-keycloak ./ -f values-local.yaml -n ttp
 
 kubectl get pods,deploy,sts,job,pvc,svc,ing -n ttp # check deployment progress
 kubectl logs -f <podname> -n ttp # follow pod logs
@@ -140,7 +140,7 @@ kubectl create secret docker-registry ghcr-credentials \
 Install the image from GHCR:
 
 ```bash
-helm upgrade --install ttp-app ./ -n ttp
+helm upgrade --install ttp-app ./ -f values-local.yaml -n ttp
 
 kubectl get pods,deploy,sts,job,pvc,svc,ing -n ttp # check deployment progress
 kubectl logs -f <podname> -n ttp # follow pod logs
