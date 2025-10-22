@@ -107,8 +107,9 @@ envSecret:
   TTP_GICS_DB_USER: "gics_user" # preferably leave empty and set as externalSecret
   TTP_GICS_DB_PASS: "gics_password" # preferably leave empty and set as externalSecret
 
-useExternalSecret: false
 secretName: ttp-app-secret-ref
+externalSecret:
+  enabled: false
 
 entrypoint: ["/bin/bash"]
 command: ["-c", "./wait-for-it.sh ttp-mysql.ttp.svc.cluster.local:3306 -t 120 && ./run.sh"]

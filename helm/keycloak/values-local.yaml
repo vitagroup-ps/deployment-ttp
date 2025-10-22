@@ -22,8 +22,9 @@ envSecret:
   KEYCLOAK_ADMIN: "admin"
   KEYCLOAK_ADMIN_PASSWORD: "admin"
 
-useExternalSecret: false
 secretName: ttp-keycloak-secret-ref
+externalSecret:
+  enabled: false
   
 command: ["start-dev", "--import-realm"]
 

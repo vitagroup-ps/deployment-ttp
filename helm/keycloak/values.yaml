@@ -22,8 +22,15 @@ envSecret:
   KEYCLOAK_ADMIN: "" # value set by externalSecret
   KEYCLOAK_ADMIN_PASSWORD: "" # value set by externalSecret
 
-useExternalSecret: true
 secretName: ttp-keycloak-secret-ref-external
+externalSecret:
+  enabled: true
+  secretStoreRef:
+    name: "aws-secrets-manager"
+    kind: "ClusterSecretStore"
+  dataFrom:
+    extract:
+      key: ttp-keycloak-secret-ref-external
   
 command: ["start-dev", "--import-realm"]
 

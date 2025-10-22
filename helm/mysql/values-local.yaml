@@ -17,8 +17,9 @@ mysqlInnodbcluster:
     GICS_USER: "gics_user" # preferably leave empty and set as externalSecret
     GICS_PASSWORD: "gics_password" # preferably leave empty and set as externalSecret
 
-  useExternalSecret: false
   secretName: ttp-mysql-secret-ref
+  externalSecret:
+    enabled: false
 
   persistence:
     enabled: true
