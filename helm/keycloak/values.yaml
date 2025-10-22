@@ -20,7 +20,7 @@ env:
 
 envSecret: {}
 useExternalSecret: false
-secretName: ttp-keycloak-secret-ref
+secretName: ttp-keycloak-secret-ref-external
   
 command: ["start-dev", "--import-realm"]
 

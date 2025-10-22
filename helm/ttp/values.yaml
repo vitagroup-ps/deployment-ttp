@@ -88,7 +88,7 @@ env:
 
 envSecret: {}
 useExternalSecret: true
-secretName: ttp-app-secret-ref
+secretName: ttp-app-secret-ref-external
 
 entrypoint: ["/bin/bash"]
 command: ["-c", "./wait-for-it.sh ttp-mysql.ttp.svc.cluster.local:3306 -t 120 && ./run.sh"]
