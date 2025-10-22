@@ -86,8 +86,28 @@ env:
   TTP_FHIR_GICS_ENDPOINT_ENABLED: "TRUE"
   TTP_FHIR_GPAS_ENDPOINT_ENABLED: "TRUE"
 
-envSecret: {}
-useExternalSecret: true
+envSecret:
+  # Keycloak WEB
+  TTP_WEB_KEYCLOAK_CLIENT_ID: "ttp-web" # preferably leave empty and set as externalSecret
+  TTP_WEB_KEYCLOAK_CLIENT_SECRET: "J4seMBlUF4hHHWNVY9UhGOinsr65XSyz" # preferably leave empty and set as externalSecret
+
+  # Keycloak SOAP
+  TTP_SOAP_KEYCLOAK_CLIENT_ID: "ttp-soap" # preferably leave empty and set as externalSecret
+  TTP_SOAP_KEYCLOAK_CLIENT_SECRET: "rlNJFPRVdMZStmzls9efPyMb2oGmRRNQ" # preferably leave empty and set as externalSecret
+
+  # Keycloak FHIR
+  TTP_FHIR_KEYCLOAK_CLIENT_ID: "ttp-fhir" # preferably leave empty and set as externalSecret
+  TTP_FHIR_KEYCLOAK_CLIENT_SECRET: "lbJOPUKb2bzanUg7Bi5jbV17Kg6IZOvE" # preferably leave empty and set as externalSecret
+
+  # gPAS
+  TTP_GPAS_DB_USER: "gpas_user" # preferably leave empty and set as externalSecret
+  TTP_GPAS_DB_PASS: "gpas_password" # preferably leave empty and set as externalSecret
+  
+  # gICS
+  TTP_GICS_DB_USER: "gics_user" # preferably leave empty and set as externalSecret
+  TTP_GICS_DB_PASS: "gics_password" # preferably leave empty and set as externalSecret
+
+useExternalSecret: false
 secretName: ttp-app-secret-ref
 
 entrypoint: ["/bin/bash"]
