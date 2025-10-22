@@ -8,8 +8,8 @@ mysqlInnodbcluster:
   credentials:
     root:
       host: "%"
-      user: "root" # preferably leave empty and set as externalSecret
-      password: "root" # preferably leave empty and set as externalSecret
+      user: "root"
+      password: "root"
 
   envSecret:
     GPAS_USER: "gpas_user" # preferably leave empty and set as externalSecret
