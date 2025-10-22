@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "ttp-mysql.fullname" . }}-init-sql-templates
   labels:
-    app: {{ template "ttp-mysql.name" . }}
+    app: {{ template "ttp-mysql.fullname" . }}
     chart: {{ template "ttp-mysql.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

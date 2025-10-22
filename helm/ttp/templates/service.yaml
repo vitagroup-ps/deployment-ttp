@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: {{ template "ttp-app.fullname" . }}
   labels:
-    app: {{ template "ttp-app.name" . }}
+    app: {{ template "ttp-app.fullname" . }}
     chart: {{ template "ttp-app.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   selector:
-    app: {{ template "ttp-app.name" . }}
+    app: {{ template "ttp-app.fullname" . }}
     release: {{ .Release.Name }}
   ports:
     - name: http
