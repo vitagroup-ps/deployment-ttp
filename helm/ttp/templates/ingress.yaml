@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: {{ template "ttp-app.fullname" . }}
   labels:
-    app: {{ template "ttp-app.name" . }}
+    app: {{ template "ttp-app.fullname" . }}
     chart: {{ template "ttp-app.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -25,6 +25,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ template "ttp-app.name" . }}
+                name: {{ template "ttp-app.fullname" . }}
                 port:
                   number: {{ .Values.service.ports.http }}
