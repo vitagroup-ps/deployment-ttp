@@ -198,7 +198,6 @@ Default user:
 One domain (MII) is preconfigured containing the consent of the 4 patients registered with pseudonyms in gPAS.
 
 ## Requests FHIR
-
 ### Obtain an Access Token via client_credentials flow
 
 Use your `ttp-fhir` client’s credentials to get a token and export it using `jq`:
@@ -219,7 +218,7 @@ ACCESS_TOKEN=$(
 echo "Token exported. Starts with: ${ACCESS_TOKEN:0:12}..."
 ```
 
-### gPAS FHIR Endpoint Metadata
+### gPAS FHIR Endpoint metadata
 
 Test access to the gPAS FHIR endpoint by reading the CapabilityStatement:
 
@@ -229,7 +228,7 @@ curl -X GET "http://ttp:8080/ttp-fhir/fhir/gpas/metadata" \
   | jq
 ```
 
-### gPAS FHIR Endpoint Pseudonymization
+### gPAS FHIR Endpoint pseudonymizeAllowCreate
 
 Create pseudonyms in the gPAS domain `pDR` for the provided original values using the operation `$pseudonymizeAllowCreate` on the gPAS FHIR endpoint:
 
@@ -259,6 +258,42 @@ curl -X POST 'http://ttp:8080/ttp-fhir/fhir/gpas/$pseudonymizeAllowCreate' \
       {
         "name": "original",
         "valueString": "mpi_0000000004"
+      }
+    ]
+  }' \
+  | jq
+```
+
+### gPAS FHIR Endpoint dePseudonymize
+
+Resolve MPI identifiers in the gPAS domain `pDR` for the provided pseudonym values using the operation `$dePseudonymize` on the gPAS FHIR endpoint:
+
+```bash
+curl -X POST 'http://ttp:8080/ttp-fhir/fhir/gpas/$dePseudonymize' \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "valueString": "pdr",
+        "name": "target"
+      },
+      {
+        "valueString": "pdr_0000000001",
+        "name": "pseudonym"
+      },
+      {
+        "valueString": "pdr_0000000002",
+        "name": "pseudonym"
+      },
+      {
+        "valueString": "pdr_0000000003",
+        "name": "pseudonym"
+      },
+      {
+        "valueString": "pdr_0000000004",
+        "name": "pseudonym"
       }
     ]
   }' \
@@ -296,7 +331,29 @@ curl -X GET "http://ttp:8080/gpas/gpasService?wsdl" \
   | xq
 ```
 
-### gPAS SOAP Endpoint Pseudonym Tree
+### gPAS SOAP Endpoint getValueForList
+
+Resolve MPI identifiers in the gPAS domain `pDR` for the provided pseudonym values using the operation `getValueForList` on the gPAS SOAP endpoint:
+
+```bash
+curl -X POST 'http://ttp:8080/gpas/gpasService' \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+  -H "Content-Type: application/xml" \
+  -d '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:psn="http://psn.ttp.ganimed.icmvc.emau.org/">
+    <soapenv:Header/>
+    <soapenv:Body>
+      <psn:getValueForList>
+        <domainName>pdr</domainName>
+        <psnList>pdr_0000000001</psnList>
+        <psnList>pdr_0000000002</psnList>
+      </psn:getValueForList>
+    </soapenv:Body>
+  </soapenv:Envelope>
+  ' \
+  | xq
+```
+
+### gPAS SOAP Endpoint getPSNNetFor
 
 Resolve the full pseudonym tree in gPAS for the provided pseudonym (without specifing the domain) using the operation `getPSNNetFor` on the gPAS SOAP endpoint:
 
