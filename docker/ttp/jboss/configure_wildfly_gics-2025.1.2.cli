@@ -249,6 +249,7 @@ end-if
 #>available-env< TTP_WEB_KEYCLOAK_SERVER_URL
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_WEB_KEYCLOAK_SERVER_URL})
 	set ttpWebKeycloakBaseUrl=${env.TTP_WEB_KEYCLOAK_SERVER_URL}
+	/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 end-if
 
 set ttpWebKeycloakSecret=<CLIENT_SECRET>
