@@ -186,6 +186,7 @@ if (result ~= "(?i)(gras)") of :resolve-expression(expression=$authMode)
         --redeploy-affected
 end-if
 
+
 # KeyCloak-Authentication for WEB
 ##################################
 if (result ~= "(?i)(keycloak-json)") of :resolve-expression(expression=$authMode)
@@ -243,7 +244,6 @@ end-if
 #>available-env< TTP_WEB_KEYCLOAK_SERVER_URL
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_WEB_KEYCLOAK_SERVER_URL})
 	set ttpWebKeycloakBaseUrl=${env.TTP_WEB_KEYCLOAK_SERVER_URL}
-    /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 end-if
 
 set ttpWebKeycloakSecret=<CLIENT_SECRET>
@@ -301,7 +301,6 @@ end-if
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_WEB_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS})
 	set ttpWebKeycloakUseResourceRoleMappings=${env.TTP_WEB_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS}
 end-if
-
 if (result ~= "(?i)(keycloak)") of :resolve-expression(expression=$authMode)
     echo \>\>\> install gpas-Authentication for $authMode-Authentication
     deployment-overlay add \
@@ -309,7 +308,7 @@ if (result ~= "(?i)(keycloak)") of :resolve-expression(expression=$authMode)
         --content=/WEB-INF/web.xml=$wfOverlaysDir/gpas_oidc_web.xml \
         --deployments=gpas-web-*.war \
         --redeploy-affected
-    set gpasVersion=2025.1.1
+    set gpasVersion=2025.1.3
     /subsystem=elytron-oidc-client/secure-deployment=gpas-web-$gpasVersion.war:add( \
         provider-url=$ttpWebKeycloakBaseUrl/realms/$ttpWebKeycloakRealm, \
         client-id=$ttpWebKeycloakClientId, \

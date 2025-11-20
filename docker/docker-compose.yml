@@ -1,6 +1,6 @@
 services:
   ttp:
-    image: ghcr.io/vitagroup-ps/deployment-ttp:2025.1
+    image: ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2
     container_name: ttp-app
     ports:
       - "8080:8080"
@@ -21,10 +21,13 @@ services:
       TTP_GPAS_LOG_LEVEL: DEBUG
       TTP_GICS_LOG_TO: CONSOLE
       TTP_GICS_LOG_LEVEL: DEBUG
+      TTP_EPIX_LOG_TO: CONSOLE
+      TTP_EPIX_LOG_LEVEL: DEBUG
 
       # Keycloak WEB
       TTP_GPAS_WEB_AUTH_MODE: keycloak
       TTP_GICS_WEB_AUTH_MODE: keycloak
+      TTP_EPIX_WEB_AUTH_MODE: keycloak
       TTP_WEB_KEYCLOAK_REALM: ttp
       TTP_WEB_KEYCLOAK_CLIENT_ID: ttp-web
       TTP_WEB_KEYCLOAK_CLIENT_SECRET: J4seMBlUF4hHHWNVY9UhGOinsr65XSyz
@@ -35,6 +38,7 @@ services:
       # Keycloak SOAP
       TTP_GPAS_SOAP_KEYCLOAK_ENABLE: true
       TTP_GICS_SOAP_KEYCLOAK_ENABLE: true
+      TTP_EPIX_SOAP_KEYCLOAK_ENABLE: true
       TTP_SOAP_KEYCLOAK_REALM: ttp
       TTP_SOAP_KEYCLOAK_CLIENT_ID: ttp-soap
       TTP_SOAP_KEYCLOAK_CLIENT_SECRET: rlNJFPRVdMZStmzls9efPyMb2oGmRRNQ
@@ -64,6 +68,12 @@ services:
       TTP_FHIR_KEYCLOAK_ROLE_GICS_USER: role.gics.fhir.user
       TTP_FHIR_KEYCLOAK_ROLE_GICS_ADMIN: role.gics.fhir.admin
 
+      # ePIX web roles are defaults: role.epix.<user|admin>
+      TTP_EPIX_SOAP_ROLE_USER_NAME: role.epix.soap.user
+      TTP_EPIX_SOAP_ROLE_ADMIN_NAME: role.epix.soap.admin
+      TTP_FHIR_KEYCLOAK_ROLE_EPIX_USER: role.epix.fhir.user
+      TTP_FHIR_KEYCLOAK_ROLE_EPIX_ADMIN: role.epix.fhir.admin
+
       # gPAS
       TTP_GPAS_WEB_CONTEXT: gpas-web
       TTP_GPAS_SOAP_CONTEXT: gpas
@@ -84,9 +94,20 @@ services:
       TTP_GICS_DB_USER: gics_user
       TTP_GICS_DB_PASS: gics_password
 
+      # ePIX
+      TTP_EPIX_WEB_CONTEXT: epix-web
+      TTP_EPIX_SOAP_CONTEXT: epix
+
+      TTP_EPIX_DB_HOST: mysql
+      TTP_EPIX_DB_PORT: 3306
+      TTP_EPIX_DB_NAME: epix
+      TTP_EPIX_DB_USER: epix_user
+      TTP_EPIX_DB_PASS: epix_password
+
       # FHIR
       TTP_FHIR_GICS_ENDPOINT_ENABLED: TRUE
       TTP_FHIR_GPAS_ENDPOINT_ENABLED: TRUE
+      TTP_FHIR_EPIX_ENDPOINT_ENABLED: TRUE
     depends_on:
       - mysql
     entrypoint: /bin/bash

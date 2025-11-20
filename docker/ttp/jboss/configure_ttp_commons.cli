@@ -139,7 +139,7 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_KEYCLOAK_S
 	set temp=${env.TTP_KEYCLOAK_SERVER_URL}
 end-if
 if (result != "null") of :resolve-expression(expression=$temp)
-    echo \>\>\> set system-property for TTP_KEYCLOAK_SERVER_URL
+    echo \>\>\> set system-property for TTP_KEYCLOAK_SERVER_URL: $temp
     /system-property=ttp.auth.keycloak.baseUrl:add(value=$temp)
 end-if
 
@@ -154,7 +154,7 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_KEYCLOAK_R
 	set temp=${env.TTP_KEYCLOAK_REALM}
 end-if
 if (result != "null") of :resolve-expression(expression=$temp)
-    echo \>\>\> set system-property for TTP_KEYCLOAK_REALM
+    echo \>\>\> set system-property for TTP_KEYCLOAK_REALM: $temp
     /system-property=ttp.auth.keycloak.realm:add(value=$temp)
 end-if
 
@@ -243,13 +243,13 @@ end-if
 #>available-env< TTP_SOAP_KEYCLOAK_SERVER_URL
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_SOAP_KEYCLOAK_SERVER_URL})
     set temp=${env.TTP_SOAP_KEYCLOAK_SERVER_URL}
-    echo \>\>\> set system-property for TTP_SOAP_KEYCLOAK_SERVER_URL
+    echo \>\>\> set system-property for TTP_SOAP_KEYCLOAK_SERVER_URL: $temp
     /system-property=ttp.auth.soap.keycloak.baseUrl:add(value=$temp)
 end-if
 #>available-env< TTP_SOAP_KEYCLOAK_REALM
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_SOAP_KEYCLOAK_REALM})
     set temp=${env.TTP_SOAP_KEYCLOAK_REALM}
-    echo \>\>\> set system-property for TTP_SOAP_KEYCLOAK_REALM
+    echo \>\>\> set system-property for TTP_SOAP_KEYCLOAK_REALM: $temp
     /system-property=ttp.auth.soap.keycloak.realm:add(value=$temp)
 end-if
 #>available-env< TTP_SOAP_KEYCLOAK_RESOURCE

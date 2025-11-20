@@ -10,7 +10,7 @@ Mit **rollenbasierter Domänenabsicherung** können einzelne Domänen der Tools 
 
 Als **Paradigma** wird dabei die **transparente "Perspektive"** (oder "View") verwendet: Anfragen zur Liste aller Domänen werden nur mit den zugelassenen Domänen beantwortet und Zugriffsversuche auf andere Domänen werden so beantwortet, als gäbe es diese gar nicht. (Konkret werden solche Anfragen mit `UnknownObjectException` pariert statt mit `AuthenticationException` o.ä.) So ist es einem Nutzer auch nicht möglich, durch gezielte Anfragen herauszufinden, welche weiteren Domänen in der Instanz vorhanden sind.
 
-Die **"Filterung"** der Domänen erfolgt **im Backend**, so dass die Zugriffe über **alle Schnittstellen entsprechend eingeschränkt** werden, sofern sie authentifiziert und mit aktivierter rollenbasierter Domänenabsicherung erfolgen.
+Die **"Filterung"** der Domänen erfolgt **im Backend**, sodass die Zugriffe über **alle Schnittstellen entsprechend eingeschränkt** werden, sofern sie authentifiziert und mit aktivierter rollenbasierter Domänenabsicherung erfolgen.
 
 Das [zweistufige Rollensystem mit `admin`- und `user`-Rollen](https://www.ths-greifswald.de/ttp-tools/keycloak) bleibt von rollenbasierter Domänenabsicherung unberührt und kann als komplementär dazu betrachtet werden.
 

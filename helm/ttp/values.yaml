@@ -2,7 +2,7 @@ timezone: "Europe/Berlin"
 
 replicaCount: 1
 
-image: ghcr.io/vitagroup-ps/deployment-ttp:2025.1
+image: ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2
 imagePullSecrets:
   - name: ghcr-credentials
   
@@ -32,6 +32,8 @@ env:
   TTP_GPAS_LOG_LEVEL: "DEBUG"
   TTP_GICS_LOG_TO: "CONSOLE"
   TTP_GICS_LOG_LEVEL: "DEBUG"
+  TTP_EPIX_LOG_TO: "CONSOLE"
+  TTP_EPIX_LOG_LEVEL: "DEBUG"
 
   # Keycloak WEB
   TTP_GPAS_WEB_AUTH_MODE: "keycloak"
@@ -65,6 +67,10 @@ env:
   TTP_GICS_SOAP_ROLE_ADMIN_NAME: "role.gics.soap.admin"
   TTP_FHIR_KEYCLOAK_ROLE_GICS_USER: "role.gics.fhir.user"
   TTP_FHIR_KEYCLOAK_ROLE_GICS_ADMIN: "role.gics.fhir.admin"
+  TTP_EPIX_SOAP_ROLE_USER_NAME: "role.epix.soap.user"
+  TTP_EPIX_SOAP_ROLE_ADMIN_NAME: "role.epix.soap.admin"
+  TTP_FHIR_KEYCLOAK_ROLE_EPIX_USER: "role.epix.fhir.user"
+  TTP_FHIR_KEYCLOAK_ROLE_EPIX_ADMIN: "role.epix.fhir.admin"
 
   # gPAS
   TTP_GPAS_WEB_CONTEXT: "gpas-web"
@@ -82,9 +88,18 @@ env:
   TTP_GICS_DB_PORT: "3306"
   TTP_GICS_DB_NAME: "gics"
 
+  # ePIX
+  TTP_EPIX_WEB_CONTEXT: "epix-web"
+  TTP_EPIX_SOAP_CONTEXT: "epic"
+
+  TTP_EPIX_DB_HOST: "ttp-mysql.ttp.svc.cluster.local"
+  TTP_EPIX_DB_PORT: "3306"
+  TTP_EPIC_DB_NAME: "epix"
+
   # FHIR
   TTP_FHIR_GICS_ENDPOINT_ENABLED: "TRUE"
   TTP_FHIR_GPAS_ENDPOINT_ENABLED: "TRUE"
+  TTP_FHIR_EPIX_ENDPOINT_ENABLED: "TRUE"
 
 envSecret:
   # Keycloak WEB
@@ -106,6 +121,10 @@ envSecret:
   # gICS
   TTP_GICS_DB_USER: "" # value set by externalSecret
   TTP_GICS_DB_PASS: "" # value set by externalSecret
+
+  # ePIX
+  TTP_EPIX_DB_USER: "" # preferably leave empty and set as externalSecret
+  TTP_EPIX_DB_PASS: "" # preferably leave empty and set as externalSecret
 
 secretName: ttp-app-secret-ref-external
 externalSecret:

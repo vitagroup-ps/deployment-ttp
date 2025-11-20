@@ -1,7 +1,7 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164555-a27e5180-f32f-11e8-8725-7b97e35134b5.png)
 
-Current Version: 2025.1.0 (Jun 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.0 (June 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-0)
+Current Version: 2025.1.1 (Sep 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
 
 # About #
 The collection, processing and use of medical research data generally requires the informed consent of the data subject for a specific purpose, known as informed consent (IC) (see Art. 6-11 GDPR). In addition to this classic opt-in approach (with IC), legal requirements (e.g. GDNG, KFRG, ePA) may permit the collection and use of data without the prior consent of data subjects (opt-out). In both cases, however, the obligation to provide evidence to supervisory authorities (Art. 5 para. 2 GDPR) and the data subject's will not to participate (withdrawal, objection) should be taken into account. Therefore, in the context of constantly growing national and international research initiatives, a reliable and efficient procedure for the digital management of the data subject's will is indispensable as the basis for legally permissible data processing.

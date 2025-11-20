@@ -110,7 +110,6 @@ if (outcome != "success") of /subsystem=datasources/data-source=grasDS:read-reso
 			],\
             http-server-mechanism-factory=global)
         /subsystem=undertow/application-security-domain=ttp-security-domain:add(http-authentication-factory=http-db-auth)
-		/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 		/subsystem=ejb3/application-security-domain=ttp-security-domain:add(security-domain=jdbcdomain)
 	catch
 		echo \<\<\< FAILED add grasDS and TtpRealm

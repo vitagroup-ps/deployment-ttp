@@ -1,7 +1,7 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164555-a27e5180-f32f-11e8-8725-7b97e35134b5.png)
 
-Current Version: 2025.1.0 (Juli 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.0 (June 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-0)
+Current Version: 2025.1.2 (Okt. 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
 
 ---
 **Hinweis:** Diese README beschäftigt sich nur mit dem Ausführen des gICS`s ohne vorher ein eigenes gICS-Image zu bauen. Zum Einsatz kommt dafür nur Docker-Compose mit gemounteten Volumes.
@@ -159,7 +159,7 @@ Die einfachste Möglichkeit die Demo-Daten einzuspielen, ist vor dem Hochfahren 
 Wem die Standard-Log-Einstellungen nicht genügen, kann diese ändern.<br>
 Zum einen kann mit der ENV-Variable `WF_SYSTEM_LOG_LEVEL` der Log-Level für den Console-Handler geändert werden (Default ist *INFO*),
 zum anderen kann mit `TTP_GICS_LOG_TO` *FILE* eine separate Log-Datei für den gICS angelegt werden.
-Die Log-Datei wird im WildFly-Container unter `${docker.wildfly.logs}` abgelegt und kann wie folgt gemountet werden.
+Die Log-Datei wird im WildFly-Container unter `/entrypoint-wildfly-logs` abgelegt und kann wie folgt gemountet werden.
 
 ```ini
 WF_SYSTEM_LOG_LEVEL=DEBUG
@@ -173,7 +173,7 @@ docker-compose.yml:
 services:
   wildfly:
     volumes:
-      - ./logs:${docker.wildfly.logs}
+      - ./logs:/entrypoint-wildfly-logs
 ```
 
 ---
@@ -316,57 +316,57 @@ docker-compose up wildfly
 In den env-Dateien stehen weitere Details zu den einzelnen Variablen.
 
 #### ./envs/ttp_gics.env
-| Kategorie | Variable                          | verfügbare Werte oder Schema           | default                                              |
-|-----------|-----------------------------------|----------------------------------------|------------------------------------------------------|
-| Logging   | TTP_GICS_LOG_TO                   | CONSOLE;FILE                           | CONSOLE                                              |
-| Logging   | TTP_GICS_LOG_LEVEL                | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                                                 |
-| Logging   | TTP_GICS_LOG_PATTERN **<-- neu**  | \<STRING\>                             | (from TTP_LOG_PATTERN)                               |
-| Database  | TTP_GICS_DB_HOST                  | \<STRING\>                             | mysql                                                |
-| Database  | TTP_GICS_DB_PORT                  | 0-65535                                | 3306                                                 |
-| Database  | TTP_GICS_DB_NAME                  | \<STRING\>                             | gics                                                 |
-| Database  | TTP_GICS_DB_USER                  | \<STRING\>                             | gics_user                                            |
-| Database  | TTP_GICS_DB_PASS                  | \<STRING\>                             | gics_password                                        |
-| Security  | TTP_GICS_WEB_AUTH_MODE            | gras, keycloak, keycloak-json          | -                                                    |
-| Security  | TTP_GICS_SOAP_KEYCLOAK_ENABLE     | true, false                            | -                                                    |
-| Security  | TTP_GICS_SOAP_ROLE_USER_NAME      | \<STRING\>                             | role.gics.user                                       |
-| Security  | TTP_GICS_SOAP_ROLE_USER_SERVICES  | \<STRING\>                             | /gicas/gicsService,/gics/gicsServiceWithNotification |
-| Security  | TTP_GICS_SOAP_ROLE_ADMIN_NAME     | \<STRING\>                             | role.gics.admin                                      |
-| Security  | TTP_GICS_SOAP_ROLE_ADMIN_SERVICES | \<STRING\>                             | /gics/gicsManagementService,/gics/gicsFhirService    |
-| Security  | TTP_GICS_AUTH_DOMAIN_ROLES        | DISABLED, FORCED, IMPLIED              | IMPLIED                                              |
+| Kategorie | Variable                                                | verfügbare Werte oder Schema           | default                                              |
+|-----------|---------------------------------------------------------|----------------------------------------|------------------------------------------------------|
+| Logging   | TTP_GICS_LOG_TO **<-- ehemals TTP_GICS_LOG_TO_FILE**    | CONSOLE;FILE                           | CONSOLE                                              |
+| Logging   | TTP_GICS_LOG_LEVEL **<-- Alias von GICS_LOG_LEVEL**     | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                                                 |
+| Logging   | TTP_GICS_LOG_PATTERN **<-- neu**                        | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n                             |
+| Database  | TTP_GICS_DB_HOST **<-- Alias von GICS_DB_HOST**         | \<STRING\>                             | mysql                                                |
+| Database  | TTP_GICS_DB_PORT **<-- Alias von GICS_DB_PORT**         | 0-65535                                | 3306                                                 |
+| Database  | TTP_GICS_DB_NAME **<-- Alias von GICS_DB_NAME**         | \<STRING\>                             | gics                                                 |
+| Database  | TTP_GICS_DB_USER **<-- Alias von GICS_DB_USER**         | \<STRING\>                             | gics_user                                            |
+| Database  | TTP_GICS_DB_PASS **<-- Alias von GICS_DB_PASS**         | \<STRING\>                             | gics_password                                        |
+| Security  | TTP_GICS_WEB_AUTH_MODE **<-- Alias von GICS_AUTH_MODE** | gras, keycloak, keycloak-json          | -                                                    |
+| Security  | TTP_GICS_SOAP_KEYCLOAK_ENABLE                           | true, false                            | -                                                    |
+| Security  | TTP_GICS_SOAP_ROLE_USER_NAME                            | \<STRING\>                             | role.gics.user                                       |
+| Security  | TTP_GICS_SOAP_ROLE_USER_SERVICES                        | \<STRING\>                             | /gicas/gicsService,/gics/gicsServiceWithNotification |
+| Security  | TTP_GICS_SOAP_ROLE_ADMIN_NAME                           | \<STRING\>                             | role.gics.admin                                      |
+| Security  | TTP_GICS_SOAP_ROLE_ADMIN_SERVICES                       | \<STRING\>                             | /gics/gicsManagementService,/gics/gicsFhirService    |
+| Security  | TTP_GICS_AUTH_DOMAIN_ROLES                              | DISABLED, FORCED, IMPLIED              | IMPLIED                                              |
 
 #### ./envs/ttp_noti.env
-| Kategorie | Variable                         | verfügbare Werte oder Schema           | default                |
-|-----------|----------------------------------|----------------------------------------|------------------------|
-| Logging   | TTP_NOTI_LOG_TO                  | CONSOLE;FILE                           | CONSOLE                |
-| Logging   | TTP_NOTI_LOG_LEVEL               | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                   |
-| Logging   | TTP_NOTI_LOG_PATTERN **<-- neu** | \<STRING\>                             | (from TTP_LOG_PATTERN) |
-| Service   | TTP_NOTI_SVC_PROTOCOL            | \<STRING\>                             | http                   |
-| Service   | TTP_NOTI_SVC_HOST                | \<STRING\>                             | localhost              |
-| Service   | TTP_NOTI_SVC_PORT                | 0-65535                                | 8080                   |
-| Database  | TTP_NOTI_DB_HOST                 | \<STRING\>                             | mysql                  |
-| Database  | TTP_NOTI_DB_PORT                 | 0-65535                                | 3306                   |
-| Database  | TTP_NOTI_DB_NAME                 | \<STRING\>                             | notification_service   |
-| Database  | TTP_NOTI_DB_USER                 | \<STRING\>                             | noti_user              |
-| Database  | TTP_NOTI_DB_PASS                 | \<STRING\>                             | noti_password          |
+| Kategorie | Variable                                        | verfügbare Werte oder Schema           | default                  |
+|-----------|-------------------------------------------------|----------------------------------------|--------------------------|
+| Logging   | TTP_NOTI_LOG_TO                                 | CONSOLE;FILE                           | CONSOLE                  |
+| Logging   | TTP_NOTI_LOG_LEVEL                              | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                     |
+| Logging   | TTP_NOTI_LOG_PATTERN **<-- neu**                | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n |
+| Service   | TTP_NOTI_SVC_PROTOCOL **<-- neu**               | \<STRING\>                             | http                     |
+| Service   | TTP_NOTI_SVC_HOST **<-- neu**                   | \<STRING\>                             | localhost                |
+| Service   | TTP_NOTI_SVC_PORT **<-- neu**                   | 0-65535                                | 8080                     |
+| Database  | TTP_NOTI_DB_HOST **<-- Alias von NOTI_DB_HOST** | \<STRING\>                             | mysql                    |
+| Database  | TTP_NOTI_DB_PORT **<-- Alias von NOTI_DB_PORT** | 0-65535                                | 3306                     |
+| Database  | TTP_NOTI_DB_NAME **<-- Alias von NOTI_DB_NAME** | \<STRING\>                             | notification_service     |
+| Database  | TTP_NOTI_DB_USER **<-- Alias von NOTI_DB_USER** | \<STRING\>                             | noti_user                |
+| Database  | TTP_NOTI_DB_PASS **<-- Alias von NOTI_DB_PASS** | \<STRING\>                             | noti_password            |
 
 #### ./envs/ttp_fhir.env
-| Kategorie   | Variable                                          | verfügbare Werte oder Schema           | default                |
-|-------------|---------------------------------------------------|----------------------------------------|------------------------|
-| Logging     | TTP_FHIR_LOG_TO                                   | CONSOLE;FILE                           | CONSOLE                |
-| Logging     | TTP_FHIR_LOG_LEVEL                                | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                   |
-| Logging     | TTP_FHIR_LOG_PATTERN **<-- neu**                  | \<STRING\>                             | (from TTP_LOG_PATTERN) |
-| Security    | TTP_FHIR_KEYCLOAK_ENABLE                          | true, false                            | false                  |
-| Security    | TTP_FHIR_KEYCLOAK_REALM                           | \<STRING\>                             | ttp                    |
-| Security    | TTP_FHIR_KEYCLOAK_CLIENT_ID                       | \<STRING\>                             | fhir                   |
-| Security    | TTP_FHIR_KEYCLOAK_SSL_REQUIRED                    | none, external, all                    | all                    |
-| Security    | TTP_FHIR_KEYCLOAK_SERVER_URL                      | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                      |
-| Security    | TTP_FHIR_KEYCLOAK_CLIENT_SECRET                   | \<STRING\>                             | -                      |
-| Security    | TTP_FHIR_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS      | true, false                            | false                  |
-| Security    | TTP_FHIR_KEYCLOAK_CONFIDENTIAL_PORT               | 0-65535                                | 8443                   |
-| Security    | TTP_FHIR_KEYCLOAK_ROLE_GICS_USER                  | \<STRING\>                             | role.gics.user         |
-| Security    | TTP_FHIR_KEYCLOAK_ROLE_GICS_ADMIN                 | \<STRING\>                             | role.gics.admin        |
-| Terminology | TTP_FHIR_GICS_TERMINOLOGY_FOLDER                  | \<STRING\>                             | gics/terminology       |
-| Terminology | TTP_FHIR_GICS_TERMINOLOGY_FORCE_UPDATE_ON_STARTUP | true, false                            | false                  |
+| Kategorie   | Variable                                          | verfügbare Werte oder Schema           | default                  |
+|-------------|---------------------------------------------------|----------------------------------------|--------------------------|
+| Logging     | TTP_FHIR_LOG_TO                                   | CONSOLE;FILE                           | CONSOLE                  |
+| Logging     | TTP_FHIR_LOG_LEVEL                                | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                     |
+| Logging     | TTP_FHIR_LOG_PATTERN **<-- neu**                  | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n |
+| Security    | TTP_FHIR_KEYCLOAK_ENABLE                          | true, false                            | false                    |
+| Security    | TTP_FHIR_KEYCLOAK_REALM                           | \<STRING\>                             | ttp                      |
+| Security    | TTP_FHIR_KEYCLOAK_CLIENT_ID                       | \<STRING\>                             | fhir                     |
+| Security    | TTP_FHIR_KEYCLOAK_SSL_REQUIRED                    | none, external, all                    | all                      |
+| Security    | TTP_FHIR_KEYCLOAK_SERVER_URL                      | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                        |
+| Security    | TTP_FHIR_KEYCLOAK_CLIENT_SECRET                   | \<STRING\>                             | -                        |
+| Security    | TTP_FHIR_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS      | true, false                            | false                    |
+| Security    | TTP_FHIR_KEYCLOAK_CONFIDENTIAL_PORT               | 0-65535                                | 8443                     |
+| Security    | TTP_FHIR_KEYCLOAK_ROLE_GICS_USER                  | \<STRING\>                             | role.gics.user           |
+| Security    | TTP_FHIR_KEYCLOAK_ROLE_GICS_ADMIN                 | \<STRING\>                             | role.gics.admin          |
+| Terminology | TTP_FHIR_GICS_TERMINOLOGY_FOLDER                  | \<STRING\>                             | gics/terminology         |
+| Terminology | TTP_FHIR_GICS_TERMINOLOGY_FORCE_UPDATE_ON_STARTUP | true, false                            | false                    |
 
 **Hinweis:** Details zur Bedeutung des Terminologie-Imports sind im [gICS-Handbuch](https://www.ths-greifswald.de/gics/handbuch) im Abschnitt 'ADD-INS: Aktualisierung von Terminologien per
 Import' beschrieben.
@@ -381,71 +381,69 @@ Import' beschrieben.
 | Database  | TTP_GRAS_DB_PASS **<-- Alias von GRAS_DB_PASS** | \<STRING\>                   | gras_password |
 
 #### ./envs/ttp_commons.env
-| Kategorie     | Variable                                     | verfügbare Werte oder Schema           | default                  |
-|---------------|----------------------------------------------|----------------------------------------|--------------------------|
-| Logging       | TTP_LOG_TO                                   | CONSOLE;FILE                           | CONSOLE                  |
-| Logging       | TTP_LOG_LEVEL                                | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                     |
-| logging       | TTP_LOG_PATTERN **<-- neu**                  | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n |
-| Logging       | TTP_AUTH_LOG_TO                              | CONSOLE;FILE                           | CONSOLE                  |
-| Logging       | TTP_AUTH_LOG_LEVEL                           | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                     |
-| logging       | TTP_AUTH_LOG_PATTERN **<-- neu**             | \<STRING\>                             | (from TTP_LOG_PATTERN)   |
-| Logging       | TTP_WEB_LOG_TO                               | CONSOLE;FILE                           | CONSOLE                  |
-| Logging       | TTP_WEB_LOG_LEVEL                            | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                     |
-| logging       | TTP_WEB_LOG_PATTERN **<-- neu**              | \<STRING\>                             | (from TTP_LOG_PATTERN)   |
-| Database      | TTP_DB_HOST                                  | \<STRING\>                             | mysql                    |
-| Database      | TTP_DB_PORT                                  | 0-65535                                | 3306                     |
-| Database      | TTP_DB_USER                                  | \<STRING\>                             | -                        |
-| Database      | TTP_DB_PASS                                  | \<STRING\>                             | -                        |
-| Security      | TTP_KEYCLOAK_SERVER_URL                      | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                        |
-| Security      | TTP_KEYCLOAK_SSL_REQUIRED                    | none, external, all                    | all                      |
-| Security      | TTP_KEYCLOAK_REALM                           | \<STRING\>                             | -                        |
-| Security      | TTP_KEYCLOAK_CLIENT_ID                       | \<STRING\>                             | -                        |
-| Security      | TTP_KEYCLOAK_CLIENT_SECRET                   | \<STRING\>                             | -                        |
-| Security      | TTP_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS      | true, false                            | false                    |
-| Security      | TTP_KEYCLOAK_CONFIDENTIAL_PORT               | 0-65535                                | 8443                     |
-| Web-Security  | TTP_WEB_KEYCLOAK_REALM                       | \<STRING\>                             | ttp                      |
-| Web-Security  | TTP_WEB_KEYCLOAK_CLIENT_ID                   | \<STRING\>                             | ths                      |
-| Web-Security  | TTP_WEB_KEYCLOAK_SERVER_URL                  | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                        |
-| Web-Security  | TTP_WEB_KEYCLOAK_SSL_REQUIRED                | none, external, all                    | all                      |
-| Web-Security  | TTP_WEB_KEYCLOAK_CLIENT_SECRET               | \<STRING\>                             | -                        |
-| Web-Security  | TTP_WEB_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS  | true, false                            | false                    |
-| Web-Security  | TTP_WEB_KEYCLOAK_CONFIDENTIAL_PORT           | 0-65535                                | 8443                     |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_REALM                      | \<STRING\>                             | ttp                      |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_CLIENT_ID                  | \<STRING\>                             | ths                      |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_SERVER_URL                 | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                        |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_SSL_REQUIRED               | none, external, all                    | all                      |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_CLIENT_SECRET              | \<STRING\>                             | -                        |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS | true, false                            | false                    |
-| SOAP-Security | TTP_SOAP_KEYCLOAK_CONFIDENTIAL_PORT          | 0-65535                                | 8443                     |
+| Kategorie     | Variable                                                                                      | verfügbare Werte oder Schema           | default                   |
+|---------------|-----------------------------------------------------------------------------------------------|----------------------------------------|---------------------------|
+| Logging       | TTP_LOG_TO                                                                                    | CONSOLE;FILE                           | CONSOLE                   |
+| Logging       | TTP_LOG_LEVEL                                                                                 | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                      |
+| Logging       | TTP_LOG_PATTERN **<-- neu**                                                                   | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n  |
+| Logging       | TTP_AUTH_LOG_TO **<-- ehemals TTP_AUTH_LOG_TO_FILE**                                          | CONSOLE;FILE                           | CONSOLE                   |
+| Logging       | TTP_AUTH_LOG_LEVEL                                                                            | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                      |
+| Logging       | TTP_AUTH_LOG_PATTERN **<-- neu**                                                              | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n  |
+| Logging       | TTP_WEB_LOG_TO **<-- ehemals TTP_WEB_LOG_TO_FILE**                                            | CONSOLE;FILE                           | CONSOLE                   |
+| Logging       | TTP_WEB_LOG_LEVEL                                                                             | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                      |
+| Logging       | TTP_WEB_LOG_PATTERN **<-- neu**                                                               | \<STRING\>                             | %d %-5p [%c] (%t) %s%E%n  |
+| Database      | TTP_DB_HOST                                                                                   | \<STRING\>                             | mysql                     |
+| Database      | TTP_DB_PORT                                                                                   | 0-65535                                | 3306                      |
+| Database      | TTP_DB_USER                                                                                   | \<STRING\>                             | -                         |
+| Database      | TTP_DB_PASS                                                                                   | \<STRING\>                             | -                         |
+| Security      | TTP_KEYCLOAK_SERVER_URL **<-- Alias von KEYCLOAK_SERVER_URL**                                 | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                         |
+| Security      | TTP_KEYCLOAK_SSL_REQUIRED **<-- Alias von KEYCLOAK_SSL_REQUIRED**                             | none, external, all                    | all                       |
+| Security      | TTP_KEYCLOAK_REALM **<-- Alias von KEYCLOAK_REALM**                                           | \<STRING\>                             | -                         |
+| Security      | TTP_KEYCLOAK_CLIENT_ID **<-- Alias von KEYCLOAK_RESOURCE**                                    | \<STRING\>                             | -                         |
+| Security      | TTP_KEYCLOAK_CLIENT_SECRET **<-- Alias von KEYCLOAK_CLIENT_SECRET**                           | \<STRING\>                             | -                         |
+| Security      | TTP_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS **<-- Alias von KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS** | true, false                            | false                     |
+| Security      | TTP_KEYCLOAK_CONFIDENTIAL_PORT **<-- Alias von KEYCLOAK_CONFIDENTIAL_PORT**                   | 0-65535                                | 8443                      |
+| Web-Security  | TTP_WEB_KEYCLOAK_REALM                                                                        | \<STRING\>                             | ttp                       |
+| Web-Security  | TTP_WEB_KEYCLOAK_CLIENT_ID                                                                    | \<STRING\>                             | ths                       |
+| Web-Security  | TTP_WEB_KEYCLOAK_SERVER_URL                                                                   | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                         |
+| Web-Security  | TTP_WEB_KEYCLOAK_SSL_REQUIRED                                                                 | none, external, all                    | all                       |
+| Web-Security  | TTP_WEB_KEYCLOAK_CLIENT_SECRET                                                                | \<STRING\>                             | -                         |
+| Web-Security  | TTP_WEB_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS                                                   | true, false                            | false                     |
+| Web-Security  | TTP_WEB_KEYCLOAK_CONFIDENTIAL_PORT                                                            | 0-65535                                | 8443                      |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_REALM                                                                       | \<STRING\>                             | ttp                       |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_CLIENT_ID                                                                   | \<STRING\>                             | ths                       |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_SERVER_URL                                                                  | \<PROTOCOL://HOST_OR_IP:PORT/auth/\>   | -                         |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_SSL_REQUIRED                                                                | none, external, all                    | all                       |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_CLIENT_SECRET                                                               | \<STRING\>                             | -                         |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS                                                  | true, false                            | false                     |
+| SOAP-Security | TTP_SOAP_KEYCLOAK_CONFIDENTIAL_PORT                                                           | 0-65535                                | 8443                      |
 
 #### ./envs/wf_commons.env
-| Kategorie  | Variable                                 | verfügbare Werte oder Schema           | default                               |
-|------------|------------------------------------------|----------------------------------------|---------------------------------------|
-| Logging    | WF_SYSTEM_LOG_TO                         | CONSOLE;FILE                           | CONSOLE                               |
-| Logging    | WF_SYSTEM_LOG_LEVEL                      | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                                  |
-| Logging    | WF_SYSTEM_LOG_PATTERN **<-- neu**        | \<STRING\>                             | %d %-5.5p %-4.4L %-40.40c{2.} \| %m%n |
-| WF-Admin   | WF_NO_ADMIN                              | true, false                            | false                                 |
-| WF-Admin   | WF_ADMIN_USER                            | \<STRING\>                             | admin                                 |
-| WF-Admin   | WF_ADMIN_PASS                            | \<STRING\>                             | wildfly_password                      |
-| Quality    | WF_HEALTHCHECK_URLS                      | \<SPACE-SEPARATED-URLs\>               | -                                     |
-| Optimizing | WF_ADD_CLI_FILTER                        | \<SPACE-SEPARATED-STRING\>             | -                                     |
-| Optimizing | WF_MAX_PARAMETERS                        | 1-2147483647                           | 1000                                  |
-| Optimizing | WF_MAX_POST_SIZE                         | \<BYTES\>                              | 10485760                              |
-| Optimizing | WF_MAX_CHILD_ELEMENTS                    | \<INTEGER\>                            | 50000                                 |
-| Optimizing | WF_BLOCKING_TIMEOUT                      | \<SECONDS\>                            | 300                                   |
-| Optimizing | WF_TRANSACTION_TIMEOUT                   | \<SECONDS\>                            | 300                                   |
-| Optimizing | WF_DATASOURCES_QUERY_TIMEOUT **<-- neu** | \<SECONDS\>                            | 30                                    |
-| Optimizing | WF_ENABLE_HTTP2                          | true, false                            | true                                  |
-| Optimizing | WF_MARKERFILES                           | true, false, auto                      | auto                                  |
-| Optimizing | TZ                                       | \<STRING\>                             | Europe/Berlin                         |
-| Optimizing | JAVA_OPTS                                | \<STRING\>                             | -                                     |
+| Kategorie  | Variable                                                   | verfügbare Werte oder Schema           | default                               |
+|------------|------------------------------------------------------------|----------------------------------------|---------------------------------------|
+| Logging    | WF_SYSTEM_LOG_TO **<-- ehemals WF_CONSOLE_LOG_TO_FILE**    | CONSOLE;FILE                           | CONSOLE                               |
+| Logging    | WF_SYSTEM_LOG_LEVEL **<-- Alias von CONSOLE_LOG_LEVEL**    | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                                  |
+| Logging    | WF_SYSTEM_LOG_PATTERN **<-- neu**                          | \<STRING\>                             | %d %-5.5p %-4.4L %-40.40c{2.} \| %m%n |
+| WF-Admin   | WF_NO_ADMIN **<-- Alias von NO_ADMIN**                     | true, false                            | false                                 |
+| WF-Admin   | WF_ADMIN_USER **<-- Alias von ADMIN_USER**                 | \<STRING\>                             | admin                                 |
+| WF-Admin   | WF_ADMIN_PASS **<-- Alias von WILDFLY_PASS**               | \<STRING\>                             | wildfly_password                      |
+| Quality    | WF_HEALTHCHECK_URLS **<-- Alias von HEALTHCHECK_URLS**     | \<SPACE-SEPARATED-URLs\>               | -                                     |
+| Optimizing | WF_ADD_CLI_FILTER                                          | \<SPACE-SEPARATED-STRING\>             | -                                     |
+| Optimizing | WF_MAX_PARAMETERS                                          | 1-2147483647                           | 1000                                  |
+| Optimizing | WF_MAX_POST_SIZE **<-- Alias von MAX_POST_SIZE**           | \<BYTES\>                              | 10485760                              |
+| Optimizing | WF_MAX_CHILD_ELEMENTS **<-- Alias von MAX_CHILD_ELEMENTS** | \<INTEGER\>                            | 50000                                 |
+| Optimizing | WF_BLOCKING_TIMEOUT                                        | \<SECONDS\>                            | 300                                   |
+| Optimizing | WF_TRANSACTION_TIMEOUT                                     | \<SECONDS\>                            | 300                                   |
+| Optimizing | WF_ENABLE_HTTP2 **<-- neu, ehemals via WF_DISABLE_HTTP2**  | true, false                            | true                                  |
+| Optimizing | WF_MARKERFILES **<-- Alias von WILDFLY_MARKERFILES**       | true, false, auto                      | auto                                  |
+| Optimizing | TZ                                                         | \<STRING\>                             | Europe/Berlin                         |
+| Optimizing | JAVA_OPTS                                                  | \<STRING\>                             | -                                     |
 
 #### ./envs/mysql.env
 | Kategorie  | Variable            | verfügbare Werte oder Schema | default       |
 |------------|---------------------|------------------------------|---------------|
 | Security   | MYSQL_ROOT_PASSWORD | \<STRING\>                   | root          |
-| Optimizing | TZ                  | \<STRING\>                   | Europe/Berlin |
-
+| Optimizing | TZ **<-- neu**      | \<STRING\>                   | Europe/Berlin |
 
 ---
 ## Additional Information #

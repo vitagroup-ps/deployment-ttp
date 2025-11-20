@@ -191,6 +191,7 @@ if (result ~= "(?i)(gras)") of :resolve-expression(expression=$authMode)
         --redeploy-affected
 end-if
 
+
 # KeyCloak-Authentication for WEB
 ##################################
 if (result ~= "(?i)(keycloak-json)") of :resolve-expression(expression=$authMode)
@@ -248,7 +249,6 @@ end-if
 #>available-env< TTP_WEB_KEYCLOAK_SERVER_URL
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_WEB_KEYCLOAK_SERVER_URL})
 	set ttpWebKeycloakBaseUrl=${env.TTP_WEB_KEYCLOAK_SERVER_URL}
-    /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 end-if
 
 set ttpWebKeycloakSecret=<CLIENT_SECRET>
@@ -313,7 +313,7 @@ if (result ~= "(?i)(keycloak)") of :resolve-expression(expression=$authMode)
         --content=/WEB-INF/web.xml=$wfOverlaysDir/gics_oidc_web.xml \
         --deployments=gics-web-*.war \
         --redeploy-affected
-    set gicsVersion=2025.1.0
+    set gicsVersion=2025.1.2
     /subsystem=elytron-oidc-client/secure-deployment=gics-web-$gicsVersion.war:add( \
         provider-url=$ttpWebKeycloakBaseUrl/realms/$ttpWebKeycloakRealm, \
         client-id=$ttpWebKeycloakClientId, \

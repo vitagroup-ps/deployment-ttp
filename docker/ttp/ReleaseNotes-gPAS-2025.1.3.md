@@ -1,11 +1,30 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164566-a5794200-f32f-11e8-8d3a-96244ea00832.png)
 
-Current Docker-Version of gPAS: 2025.1.1 (Juli 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.0 (June 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-0)
+Current Docker-Version of gPAS: 2025.1.3 (Nov. 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
+
+# gPAS 2025.1.3
+
+## Bug Fixes
+*  Fehler bei der Listenverarbeitung in der Weboberfläche
+*  Suche nach Pseudonymen funktioniert nach einer Pause bei der Eingabe nicht mehr
+
+
+# gPAS 2025.1.2
+
+## Improvements
+*  SQL-Skript zur Daten-Migration vorhandener Single-PSN-Domänen in Multi-PSN-Domänen
+
+## Bug Fixes
+*  Verbesserungen beim Informationsgehalt der Übersetzungen
+*  Fehler beim Import von Paaren aus Pseudonymen und Werten, wenn die Spaltenzuordnung getauscht wird
+*  Fehler bei der Verarbeitung von CSV-Dateien in UTF-8 Kodierung
+
 
 # gPAS 2025.1.1
 ## Bug Fixes
 *  Weiterleitung von E-PIX und gICS zu spezifischem Pseudonymbaum liefert InternalError
+
 
 # gPAS 2025.1.0
 

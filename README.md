@@ -6,6 +6,8 @@ The full gPAS FHIR API specification can be found here: [gPAS FHIR Operations](h
 
 The full gICS FHIR API specification can be found here: [gICS FHIR Operations](https://www.ths-greifswald.de/wp-content/uploads/tools/fhirgw/ig/2025-1-0/ImplementationGuide-markdown-Einwilligungsmanagement-Operations.html)
 
+The full ePIX FHIR API specification can be found here: [ePIX FHIR Operations](https://www.ths-greifswald.de/wp-content/uploads/tools/fhirgw/ig/2025-1-0/ImplementationGuide-markdown-RecordLinkageundIdentittsmanagement.html)
+
 
 # Using Docker-Compopse (folder docker)
 ## Prerequisites
@@ -29,7 +31,9 @@ mkdir ./db
 Create docker images (only needed if new version should be released):
 
 ```bash
-docker buildx build --platform linux/amd64,linux/arm64 --tag deployment-ttp:latest --tag deployment-ttp:2025.1 --tag ghcr.io/vitagroup-ps/deployment-ttp:latest --tag ghcr.io/vitagroup-ps/deployment-ttp:2025.1 .
+cd docker
+
+docker buildx build --platform linux/amd64,linux/arm64 --tag deployment-ttp:latest --tag deployment-ttp:2025.1.2 --tag ghcr.io/vitagroup-ps/deployment-ttp:latest --tag ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2 .
 ```
 
 Push docker images (only needed if new version should be released):
@@ -37,7 +41,7 @@ Push docker images (only needed if new version should be released):
 ```bash
 docker login ghcr.io -u YOUR_GITHUB_USERNAME # use Personal Access Token as password
 docker push ghcr.io/vitagroup-ps/deployment-ttp:latest
-docker push ghcr.io/vitagroup-ps/deployment-ttp:2025.1
+docker push ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2
 ```
 
 ## Start the environment
@@ -108,6 +112,9 @@ SELECT * FROM psn;
 
 USE gics;
 SELECT * FROM signer_id;
+
+USE epix;
+SELECT * FROM identifier;
 ```
 
 
@@ -166,6 +173,12 @@ Default user:
 * Username: `admin`
 * Password: `admin`
 
+If changes were made to the realm, it can be exported by executing the following command inside the keycloak container:
+
+```bash
+/opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/import --users realm_file --realm <REALM_NAME>
+```
+
 ### Realm & Clients
 
 The **`ttp`** realm is already configured, having three clients:
@@ -185,7 +198,7 @@ Default user:
   * Username: `gpas-admin`
   * Password: `gpas-admin`
 
-Three domains (MPI, pDR, and Study01) are preconfigured containing 4 pseudonyms each.
+Three domains (BC, pDR, and Study01) are preconfigured containing 4 pseudonyms each.
 
 ## gICS Web
 
@@ -196,6 +209,16 @@ Default user:
   * Password: `gics-admin`
 
 One domain (MII) is preconfigured containing the consent of the 4 patients registered with pseudonyms in gPAS.
+
+## ePIX Web
+
+The ePIX web frontend can be reached on  `http://ttp:8080/epix-web`.
+
+Default user:
+  * Username: `epix-admin`
+  * Password: `epix-admin`
+
+Two domains (KIS, MPI) is preconfigured containing 4 MPI IDs each.
 
 ## Requests FHIR
 ### Obtain an Access Token via client_credentials flow

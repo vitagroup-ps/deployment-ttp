@@ -1,7 +1,14 @@
 ![context](https://www.ths-greifswald.de/wp-content/uploads/2019/01/Design-Logo-THS-deutsch-271.png)
 
-- Current Client Version: ths-notification-client version 2025.1.0 (Jun 2025)
-- Current Service Version: ths-notification-service version 2025.1.0 (Jun 2025)
+- Current Client Version: ths-notification-client version 2025.1.1 (Sep 2025)
+- Current Service Version: ths-notification-service version 2025.1.1 (Sep 2025)
+
+# THS-Notification 2025.1.0
+
+## Improvements
+
+- Dependencies Updates
+
 
 # THS-Notification 2024.2.0
 

@@ -62,8 +62,24 @@
       "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
       "attributes" : { }
     }, {
+      "id" : "4a4ed1b5-4f8b-426b-bcc9-d88791bb927b",
+      "name" : "role.epix.soap.user",
+      "description" : "",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
+      "attributes" : { }
+    }, {
       "id" : "8bab9590-1a6a-4f0a-ac0d-5994771c6c2b",
       "name" : "role.gics.soap.admin",
+      "description" : "",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
+      "attributes" : { }
+    }, {
+      "id" : "66d05064-70ea-4f55-9f6e-64b86d8d9384",
+      "name" : "role.epix.soap.admin",
       "description" : "",
       "composite" : false,
       "clientRole" : false,
@@ -80,6 +96,14 @@
     }, {
       "id" : "c2d65f12-a986-4cba-a58a-a144fc8ffd54",
       "name" : "role.gpas.soap.user",
+      "description" : "",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
+      "attributes" : { }
+    }, {
+      "id" : "b03440ff-4802-45fb-9fa5-27cf58dd4152",
+      "name" : "role.epix.fhir.user",
       "description" : "",
       "composite" : false,
       "clientRole" : false,
@@ -132,8 +156,24 @@
       "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
       "attributes" : { }
     }, {
+      "id" : "4e40ca2f-5faf-4e24-9b35-ae26188da571",
+      "name" : "role.epix.admin",
+      "description" : "",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
+      "attributes" : { }
+    }, {
       "id" : "30f7ca67-c80a-4fc4-800e-adace1caace8",
       "name" : "role.gics.soap.user",
+      "description" : "",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
+      "attributes" : { }
+    }, {
+      "id" : "2d1aeaaa-2cde-4588-a360-50faeb5a83bb",
+      "name" : "role.epix.fhir.admin",
       "description" : "",
       "composite" : false,
       "clientRole" : false,
@@ -143,6 +183,14 @@
       "id" : "526238b0-841a-435d-8775-bf29c4f7279d",
       "name" : "uma_authorization",
       "description" : "${role_uma_authorization}",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
+      "attributes" : { }
+    }, {
+      "id" : "9c2fa3fe-3dad-4e1f-a9f3-9ac6373fc551",
+      "name" : "role.epix.user",
+      "description" : "",
       "composite" : false,
       "clientRole" : false,
       "containerId" : "54371844-e0b9-443d-84cd-bb122f698262",
@@ -475,6 +523,26 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids" : [ ],
   "webAuthnPolicyPasswordlessExtraOrigins" : [ ],
   "users" : [ {
+    "id" : "96814b44-51f8-4b9c-b90c-908845143cfc",
+    "username" : "epix-admin",
+    "emailVerified" : true,
+    "createdTimestamp" : 1763537053335,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "8c1779f8-ee49-472e-8028-df6d10d6c677",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1763537132912,
+      "secretData" : "{\"value\":\"npeR4/5OwT3t7XYcdHrleJIJ0aBhS0niboMUadlhcmVufa67B1iCnL4Ml0tIjJHRaiA4vr8gkL9if0cxdGUzNQ==\",\"salt\":\"UHzrjwNCCSV3JZFk58eIyw==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "role.gpas.user", "role.gics.admin", "role.gpas.admin", "role.gics.user", "default-roles-ttp", "role.epix.admin", "role.epix.user" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "827dba29-1e85-41d4-ab13-55f54aa9f973",
     "username" : "gics-admin",
     "emailVerified" : true,
@@ -491,7 +559,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "role.gpas.user", "role.gics.admin", "role.gpas.admin", "role.gics.user", "default-roles-ttp" ],
+    "realmRoles" : [ "role.gpas.user", "role.gics.admin", "role.gpas.admin", "role.gics.user", "default-roles-ttp", "role.epix.admin", "role.epix.user" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -511,7 +579,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "role.gpas.user", "role.gics.admin", "role.gpas.admin", "role.gics.user", "default-roles-ttp" ],
+    "realmRoles" : [ "role.gpas.user", "role.gics.admin", "role.gpas.admin", "role.gics.user", "default-roles-ttp", "role.epix.admin", "role.epix.user" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -525,7 +593,7 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "role.gics.fhir.admin", "role.gics.fhir.user", "default-roles-ttp", "role.gpas.fhir.admin", "role.gpas.fhir.user" ],
+    "realmRoles" : [ "role.gics.fhir.admin", "role.epix.fhir.user", "role.gics.fhir.user", "default-roles-ttp", "role.epix.fhir.admin", "role.gpas.fhir.admin", "role.gpas.fhir.user" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -539,7 +607,7 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "role.gics.soap.admin", "default-roles-ttp", "role.gics.soap.user", "role.gpas.soap.user", "role.gpas.soap.admin" ],
+    "realmRoles" : [ "role.epix.soap.user", "role.gics.soap.admin", "role.epix.soap.admin", "default-roles-ttp", "role.gics.soap.user", "role.gpas.soap.user", "role.gpas.soap.admin" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -878,9 +946,10 @@
     "protocol" : "openid-connect",
     "attributes" : {
       "oidc.ciba.grant.enabled" : "false",
-      "oauth2.device.authorization.grant.enabled" : "false",
       "client.secret.creation.time" : "1757422976",
       "backchannel.logout.session.required" : "true",
+      "post.logout.redirect.uris" : "+",
+      "oauth2.device.authorization.grant.enabled" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false"
     },
     "authenticationFlowBindingOverrides" : { },
@@ -895,6 +964,7 @@
       "config" : {
         "user.session.note" : "clientHost",
         "introspection.token.claim" : "true",
+        "userinfo.token.claim" : "true",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "clientHost",
@@ -909,6 +979,7 @@
       "config" : {
         "user.session.note" : "clientAddress",
         "introspection.token.claim" : "true",
+        "userinfo.token.claim" : "true",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "clientAddress",
@@ -923,6 +994,7 @@
       "config" : {
         "user.session.note" : "client_id",
         "introspection.token.claim" : "true",
+        "userinfo.token.claim" : "true",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "client_id",
@@ -1538,7 +1610,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "saml-user-attribute-mapper", "saml-user-property-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "oidc-usermodel-property-mapper", "oidc-full-name-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "saml-user-attribute-mapper", "oidc-full-name-mapper", "saml-role-list-mapper", "saml-user-property-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper" ]
       }
     }, {
       "id" : "d8e9ea6c-7abe-488b-bb10-ca8c93557b05",
@@ -1563,7 +1635,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-attribute-mapper", "saml-user-property-mapper", "oidc-full-name-mapper", "oidc-usermodel-attribute-mapper", "oidc-address-mapper", "saml-role-list-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "oidc-usermodel-attribute-mapper", "saml-user-attribute-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "saml-user-property-mapper", "oidc-address-mapper" ]
       }
     }, {
       "id" : "bde97614-7ac1-45c4-b5c5-b4b819f77f20",

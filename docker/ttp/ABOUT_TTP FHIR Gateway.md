@@ -1,6 +1,6 @@
 ![context](https://www.ths-greifswald.de/wp-content/uploads/2019/01/Design-Logo-THS-deutsch-271.png)
 # TTP FHIR Gateway
-Current Docker-Version of TTP-FHIR Gateway: 2025.1.0 (Juni 2025)
+Current Docker-Version of TTP-FHIR Gateway: 2025.1.1 (Sept. 2025)
 
 ## About
 The [TTP FHIR Gateway](https://simplifier.net/guide/ttp-fhir-gateway-ig/Kontext) was developed by the Trusted Third Party of the University Medicine Greifswald  and initially published in 2020 and is based on [FHIR HAPI](https://hapifhir.io/hapi-fhir/docs/server_plain/rest_operations.html) (FHIR R4). 

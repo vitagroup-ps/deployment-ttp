@@ -16,7 +16,7 @@ USE gpas;
 -- Exportiere Daten aus Tabelle gpas.domain: ~13 rows (ungefähr)
 /*!40000 ALTER TABLE `domain` DISABLE KEYS */;
 INSERT INTO `domain` (`name`, `label`, `alphabet`, `comment`, `generatorClass`, `properties`, `create_timestamp`, `update_timestamp`) VALUES
-	('mpi', 'MPI', 'org.emau.icmvc.ganimed.ttp.psn.alphabets.Symbol31', 'Master Patient Index Pseudonyms', 'org.emau.icmvc.ganimed.ttp.psn.generator.NoCheckDigits', 'FORCE_CACHE=DEFAULT;INCLUDE_PREFIX_IN_CHECK_DIGIT_CALCULATION=false;INCLUDE_SUFFIX_IN_CHECK_DIGIT_CALCULATION=false;MAX_DETECTED_ERRORS=2;PSN_LENGTH=10;PSN_PREFIX=mpi_;PSNS_DELETABLE=true;USE_LAST_CHAR_AS_DELIMITER_AFTER_X_CHARS=0;', '2025-08-26 10:39:54.979', '2025-08-26 10:39:55.008'),
+	('bc', 'BC', 'org.emau.icmvc.ganimed.ttp.psn.alphabets.Symbol31', 'Master Patient Index Pseudonyms', 'org.emau.icmvc.ganimed.ttp.psn.generator.NoCheckDigits', 'FORCE_CACHE=DEFAULT;INCLUDE_PREFIX_IN_CHECK_DIGIT_CALCULATION=false;INCLUDE_SUFFIX_IN_CHECK_DIGIT_CALCULATION=false;MAX_DETECTED_ERRORS=2;PSN_LENGTH=10;PSN_PREFIX=bc_;PSNS_DELETABLE=true;USE_LAST_CHAR_AS_DELIMITER_AFTER_X_CHARS=0;', '2025-08-26 10:39:54.979', '2025-08-26 10:39:55.008'),
 	('pdr', 'pDR', 'org.emau.icmvc.ganimed.ttp.psn.alphabets.Symbol31', 'pDR Pseudonyms', 'org.emau.icmvc.ganimed.ttp.psn.generator.NoCheckDigits', 'FORCE_CACHE=DEFAULT;INCLUDE_PREFIX_IN_CHECK_DIGIT_CALCULATION=false;INCLUDE_SUFFIX_IN_CHECK_DIGIT_CALCULATION=false;MAX_DETECTED_ERRORS=2;PSN_LENGTH=10;PSN_PREFIX=pdr_;PSNS_DELETABLE=true;USE_LAST_CHAR_AS_DELIMITER_AFTER_X_CHARS=0;', '2025-08-26 10:39:54.979', '2025-08-26 10:39:55.008'),
 	('stud01', 'Study_01', 'org.emau.icmvc.ganimed.ttp.psn.alphabets.Symbol31', 'Study 01 Pseudonyms', 'org.emau.icmvc.ganimed.ttp.psn.generator.NoCheckDigits', 'FORCE_CACHE=DEFAULT;INCLUDE_PREFIX_IN_CHECK_DIGIT_CALCULATION=false;INCLUDE_SUFFIX_IN_CHECK_DIGIT_CALCULATION=false;MAX_DETECTED_ERRORS=2;PSN_LENGTH=10;PSN_PREFIX=stud01_;PSNS_DELETABLE=true;USE_LAST_CHAR_AS_DELIMITER_AFTER_X_CHARS=0;', '2025-08-26 10:39:54.979', '2025-08-26 10:39:55.008');
 /*!40000 ALTER TABLE `domain` ENABLE KEYS */;
@@ -24,23 +24,23 @@ INSERT INTO `domain` (`name`, `label`, `alphabet`, `comment`, `generatorClass`, 
 -- Exportiere Daten aus Tabelle gpas.domain_parents: ~0 rows (ungefähr)
 /*!40000 ALTER TABLE `domain_parents` DISABLE KEYS */;
 INSERT INTO `domain_parents` (`domain`, `parentDomain`) VALUES
-	('pdr', 'mpi'),
-	('stud01', 'mpi');
+	('pdr', 'bc'),
+	('stud01', 'bc');
 /*!40000 ALTER TABLE `domain_parents` ENABLE KEYS */;
 
 INSERT INTO `psn` (`originalValue`, `pseudonym`, `domain`) VALUES
-	('0000000001', 'mpi_0000000001', 'mpi'),
-	('0000000002', 'mpi_0000000002', 'mpi'),
-	('0000000003', 'mpi_0000000003', 'mpi'),
-	('0000000004', 'mpi_0000000004', 'mpi'),
-	('mpi_0000000001', 'pdr_0000000001', 'pdr'),
-	('mpi_0000000002', 'pdr_0000000002', 'pdr'),
-	('mpi_0000000003', 'pdr_0000000003', 'pdr'),
-	('mpi_0000000004', 'pdr_0000000004', 'pdr'),
-	('mpi_0000000001', 'stud01_0000000001', 'stud01'),
-	('mpi_0000000002', 'stud01_0000000002', 'stud01'),
-	('mpi_0000000003', 'stud01_0000000003', 'stud01'),
-	('mpi_0000000004', 'stud01_0000000004', 'stud01');
+	('mpi_0000000001', 'bc_0000000001', 'bc'),
+	('mpi_0000000002', 'bc_0000000002', 'bc'),
+	('mpi_0000000003', 'bc_0000000003', 'bc'),
+	('mpi_0000000004', 'bc_0000000004', 'bc'),
+	('bc_0000000001', 'pdr_0000000001', 'pdr'),
+	('bc_0000000002', 'pdr_0000000002', 'pdr'),
+	('bc_0000000003', 'pdr_0000000003', 'pdr'),
+	('bc_0000000004', 'pdr_0000000004', 'pdr'),
+	('bc_0000000001', 'stud01_0000000001', 'stud01'),
+	('bc_0000000002', 'stud01_0000000002', 'stud01'),
+	('bc_0000000003', 'stud01_0000000003', 'stud01'),
+	('bc_0000000004', 'stud01_0000000004', 'stud01');
 /*!40000 ALTER TABLE `psn` ENABLE KEYS */;
 
 -- Exportiere Daten aus Tabelle gpas.sequence: ~1 rows (ungefähr)

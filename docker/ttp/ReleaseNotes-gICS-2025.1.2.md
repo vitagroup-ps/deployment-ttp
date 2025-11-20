@@ -1,7 +1,25 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164555-a27e5180-f32f-11e8-8725-7b97e35134b5.png)
 
-Current Version: 2025.1.0 (Jun 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.0 (June 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-0)
+Current Version: 2025.1.2 (Okt. 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
+
+# gICS 2025.1.2
+
+## Bug Fixes
+*  Hinzufügen einer Einwilligung mit digitaler Unterschrift und Scan wirft einen Fehler, wenn die automatische Scan Generierung aktiviert ist (tritt mit Dispatcher auf)
+
+
+# gICS 2025.1.1
+
+## Improvements
+*  Diverse Verbesserungen in der Weboberfläche
+
+## Bug Fixes
+*  Löschen einer Domäne über Button im Frontend führt zu Fehler
+*  Kommentar einer neuen Qualitätsprüfung ist mit Kommentar der vorherigen Qualitätsprüfung des Dokumentes vorbelegt
+*  Wert für Ablaufregel und externe Eigenschaften wird unter umständen falsch gecached
+*  Statistiken über Vorlagen, Policies und Dokumente zeigen im Dashboard keine Werte mehr an
+
 
 # gICS 2025.1.0
 

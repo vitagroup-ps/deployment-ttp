@@ -1,6 +1,17 @@
 ![context](https://www.ths-greifswald.de/wp-content/uploads/2019/01/Design-Logo-THS-deutsch-271.png)
 # TTP FHIR Gateway
-Current Docker-Version of TTP-FHIR Gateway: 2025.1.0 (Juni 2025)
+Current Docker-Version of TTP-FHIR Gateway: 2025.1.1 (Sept. 2025)
+# TTP-FHIR Gateway 2025.1.1
+
+## Improvements
+* Unterstützung Domainbasierte Rollen in Keycloak in FHIR Gateway für gICS und E-PIX
+* Dependency Updates (u.a. FHIR HAPI 8.4.0)
+* 
+## Bugfixes
+* [MII KDS Consent] Consent.policyUri verweist auf 184 statt auf Dokument-spezifische OID (z.b. 1790)
+* [MII KDS Consent] Suchparameter mii-policy-uri erlaubt unzulässige Angaben
+* [MII KDS Consent] Fehlende Angabe von Level2-Provision.period.end im Fall von Widerruf und Ablehnung führt zu internen Validierungsfehlern bei Verwendung Suchparameter category 184
+ 
 # TTP-FHIR Gateway 2025.1.0
 
 ## New Feature

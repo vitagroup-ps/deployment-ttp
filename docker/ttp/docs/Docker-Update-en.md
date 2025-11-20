@@ -1,7 +1,4 @@
-![context](https://user-images.githubusercontent.com/12081369/49164555-a27e5180-f32f-11e8-8725-7b97e35134b5.png)
-
-Current Version: 2025.1.0 (Juli 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.0 (June 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-0)
+${ttp.readme.header}
 
 # Updating the THS tools via Docker
 
@@ -175,32 +172,4 @@ In the event of an error, the previous database can be restored (provided the in
 docker exec -it gpas-<new-version>-mysql /usr/bin/mysql -u gpas_user -p -e "USE gpas; $(cat backup-gpas-2022-03-31.sql)"
 ```
 
-# Additional Information #
-
-The gICS was developed by the University Medicine Greifswald and published in 2014 as part of the [MOSAIC-Project](https://ths-greifswald.de/mosaic "")  (funded by the DFG HO 1937/2-1). Selected
-functionalities of gICS were developed as part of the following research projects:
-
-- MAGIC (funded by the DFG HO 1937/5-1)
-- MIRACUM (funded by the German Federal Ministry of Education and Research 01ZZ1801M)
-- NUM-CODEX (funded by the German Federal Ministry of Education and Research 01KX2021)
-
-## Credits ##
-**Concept and implementation:** L. Geidel <br/>
-**Web-Client:** A. Blumentritt, M. Bialke, F.M.Moser <br/>
-**Docker:** R. Schuldt <br/>
-**TTP-FHIR Gateway für gICS:** M. Bialke, P. Penndorf, L. Geidel, S. Lang, F.M. Moser
-
-## License ##
-**License:** AGPLv3, https://www.gnu.org/licenses/agpl-3.0.en.html <br/>
-**Copyright:** 2014 - 2025 University Medicine Greifswald <br/>
-**Contact:** https://www.ths-greifswald.de/kontakt/
-
-## Publications ##
-- https://doi.org/10.1186/s12911-022-02081-4
-- https://rdcu.be/b5Yck
-- https://rdcu.be/6LJd
-- https://dx.doi.org/10.3414/ME14-01-0133
-- https://dx.doi.org/10.1186/s12967-015-0545-6
-
-# Supported languages #
-German, English
+${ttp.readme.footer}

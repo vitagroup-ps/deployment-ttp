@@ -83,7 +83,6 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_FHIR_KEYCL
 		set temp=${env.TTP_FHIR_KEYCLOAK_SERVER_URL}
 		echo \>\>\> set system-property for TTP_FHIR_KEYCLOAK_SERVER_URL
 		/system-property=ttp.fhir.keycloak.baseUrl:add(value=$temp)
-		/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 	catch
 		echo \<\<\< FAILED can\'t set system-property for TTP_FHIR_KEYCLOAK_SERVER_URL
 	end-try

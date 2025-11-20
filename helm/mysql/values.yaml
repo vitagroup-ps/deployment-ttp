@@ -16,6 +16,8 @@ mysqlInnodbcluster:
     GPAS_PASSWORD: "" # value set by externalSecret
     GICS_USER: "" # value set by externalSecret
     GICS_PASSWORD: "" # value set by externalSecret
+    EPIX_USER: "" # value set by externalSecret
+    EPIX_PASSWORD: "" # value set by externalSecret
 
   secretName: ttp-mysql-secret-ref-external
   externalSecret:
