@@ -38,6 +38,7 @@ env:
   # Keycloak WEB
   TTP_GPAS_WEB_AUTH_MODE: "keycloak"
   TTP_GICS_WEB_AUTH_MODE: "keycloak"
+  TTP_EPIX_WEB_AUTH_MODE: "keycloak"
   TTP_WEB_KEYCLOAK_REALM: "ttp"
   TTP_WEB_KEYCLOAK_SERVER_URL: "http://ttp-keycloak.ttp.svc.cluster.local:8091"
   TTP_WEB_KEYCLOAK_SSL_REQUIRED: "none"
@@ -46,6 +47,7 @@ env:
   # Keycloak SOAP
   TTP_GPAS_SOAP_KEYCLOAK_ENABLE: "true"
   TTP_GICS_SOAP_KEYCLOAK_ENABLE: "true"
+  TTP_EPIX_SOAP_KEYCLOAK_ENABLE: "true"
   TTP_SOAP_KEYCLOAK_REALM: "ttp"
   TTP_SOAP_KEYCLOAK_SERVER_URL: "http://ttp-keycloak.ttp.svc.cluster.local:8091"
   TTP_SOAP_KEYCLOAK_SSL_REQUIRED: "none"
