@@ -2,7 +2,7 @@ timezone: "Europe/Berlin"
 
 replicaCount: 1
 
-image: ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2
+image: ghcr.io/vitagroup-ps/deployment-ttp:2025.2.0
 imagePullSecrets:
   - name: ghcr-credentials
   
@@ -78,6 +78,7 @@ env:
   TTP_GPAS_WEB_CONTEXT: "gpas-web"
   TTP_GPAS_SOAP_CONTEXT: "gpas"
 
+  TTP_GPAS_DB_DBMS: mysql
   TTP_GPAS_DB_HOST: "ttp-mysql.ttp.svc.cluster.local"
   TTP_GPAS_DB_PORT: "3306"
   TTP_GPAS_DB_NAME: "gpas"
@@ -86,6 +87,7 @@ env:
   TTP_GICS_WEB_CONTEXT: "gics-web"
   TTP_GICS_SOAP_CONTEXT: "gics"
 
+  TTP_GICS_DB_DBMS: mysql
   TTP_GICS_DB_HOST: "ttp-mysql.ttp.svc.cluster.local"
   TTP_GICS_DB_PORT: "3306"
   TTP_GICS_DB_NAME: "gics"
@@ -94,6 +96,7 @@ env:
   TTP_EPIX_WEB_CONTEXT: "epix-web"
   TTP_EPIX_SOAP_CONTEXT: "epix"
 
+  TTP_EPIX_DB_DBMS: mysql
   TTP_EPIX_DB_HOST: "ttp-mysql.ttp.svc.cluster.local"
   TTP_EPIX_DB_PORT: "3306"
   TTP_EPIX_DB_NAME: "epix"

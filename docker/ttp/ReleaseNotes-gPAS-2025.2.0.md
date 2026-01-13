@@ -1,7 +1,32 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164566-a5794200-f32f-11e8-8d3a-96244ea00832.png)
 
-Current Docker-Version of gPAS: 2025.1.3 (Nov. 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
+Current Docker-Version of gPAS: 2025.2.0 (Dez. 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.2.0 (Dec 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-2-0)
+
+# gPAS 2025.2.0
+
+## New Features
+*  Im- und Export von Domäneneinstellungen
+*  Unterstützung für MariaDb und PostGresSql (sowie experimentell: MongoDB)
+
+## Improvements
+*  Beschleunigter Start bei Verwendung mehrerer Domains durch optimiertes Zählverhalten
+*  Hinweis bei zu großer PSN-Menge für Aktivierung des Caches
+
+## Bug Fixes
+*  Fehlerhafte Berechnung der Anzahl möglicher Pseudonyme bei Verwendung von Trennzeichen nach jedem 1-ten Zeichen
+*  Fehlerhafte Berechnung der Anzahl möglicher Pseudonyme bei Verwendung eines benutzerdefinierten Alphabets mit Trennzeichen
+*  Konfiguration eines benutzerdefinierten Alphabets erlaubt keinen Prüfziffer-Generator
+*  Eintrag verschwindet nach Anonymisierung, wenn Validierung mittels Elterndomäne aktiviert ist
+
+
+# gPAS 2025.1.4
+
+## Bug Fixes
+* Originalwert im PSN Baum lässt sich nicht kopieren
+* PSNs lassen sich unter Mac OS nicht kopieren
+* Teilweise Fehler im Log bei Wechsel der Domäne
+
 
 # gPAS 2025.1.3
 
@@ -22,6 +47,7 @@ Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [
 
 
 # gPAS 2025.1.1
+
 ## Bug Fixes
 *  Weiterleitung von E-PIX und gICS zu spezifischem Pseudonymbaum liefert InternalError
 
@@ -297,5 +323,5 @@ Selected functionalities of gPAS were developed as part of the following researc
 - https://dx.doi.org/10.3205/24gmds102
 - https://dx.doi.org/10.3205/24gmds101
 
-# Supported languages #
+## Supported languages ##
 German, English

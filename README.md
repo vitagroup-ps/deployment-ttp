@@ -33,7 +33,7 @@ Create docker images (only needed if new version should be released):
 ```bash
 cd docker
 
-docker buildx build --platform linux/amd64,linux/arm64 --tag deployment-ttp:latest --tag deployment-ttp:2025.1.2 --tag ghcr.io/vitagroup-ps/deployment-ttp:latest --tag ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2 .
+docker buildx build --platform linux/amd64,linux/arm64 --tag deployment-ttp:latest --tag deployment-ttp:2025.2.0 --tag ghcr.io/vitagroup-ps/deployment-ttp:latest --tag ghcr.io/vitagroup-ps/deployment-ttp:2025.2.0 .
 ```
 
 Push docker images (only needed if new version should be released):
@@ -41,7 +41,7 @@ Push docker images (only needed if new version should be released):
 ```bash
 docker login ghcr.io -u YOUR_GITHUB_USERNAME # use Personal Access Token as password
 docker push ghcr.io/vitagroup-ps/deployment-ttp:latest
-docker push ghcr.io/vitagroup-ps/deployment-ttp:2025.1.2
+docker push ghcr.io/vitagroup-ps/deployment-ttp:2025.2.0
 ```
 
 ## Start the environment
@@ -322,6 +322,33 @@ curl -X POST 'http://ttp:8080/ttp-fhir/fhir/gpas/$dePseudonymize' \
   }' \
   | jq
 ```
+
+### ePIX FHIR Endpoint metadata
+
+Test access to the gPAS FHIR endpoint by reading the CapabilityStatement:
+
+```bash
+curl -X GET "http://ttp:8080/ttp-fhir/fhir/epix/metadata" \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+  | jq
+```
+
+### ePIX FHIR Endpoint search by name
+
+Resolve a Person/Patient by its name
+```bash
+curl -X GET "http://ttp:8080/ttp-fhir/fhir/epix/Person?organization:identifier=vg&patient.family=Meier&patient.given=Max&_include=Person:link" \
+  | jq
+```
+
+### ePIX FHIR Endpoint search by PID
+
+Resolve a Person/Patient by its name
+```bash
+curl -X GET "http://ttp:8080/ttp-fhir/fhir/epix/Patient?identifier=https://ths-greifswald.de/fhir/epix/identifier/KIS%7C0000000001&_has:Person:link:organization:identifier=vg&_revinclude=Person:link" \
+  | jq
+```
+
 
 ## Requests SOAP
 ### Obtain an Access Token via client_credentials flow

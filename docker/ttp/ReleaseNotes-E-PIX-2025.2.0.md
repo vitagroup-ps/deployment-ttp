@@ -1,17 +1,30 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164561-a4481500-f32f-11e8-9f0d-fa7a730f4b9d.png)
 
-Current Docker-Version of E-PIX: 2025.1.2 (Okt. 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
+Current Docker-Version of E-PIX: 2025.2.0 (Dez. 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.2.0 (Dec 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-2-0)
+
+# E-PIX 2025.2.0
+
+## Improvements
+*  Konfigurierbares Verhalten für vorhandene Nicht-Matching-Felder, wenn diese Felder im Update Aufruf fehlen
+
+## Bug Fixes
+*  E-PIX startet nicht, wenn MPIs als externe identifier verwendet werden
+*  Eingabefelder von Reglern in der Domänenkonfiguration sind nicht gegen nachträgliche Bearbeitung gesperrt
+*  Download des Ereignisprotokolls enthält keine Einträge
+
 
 # E-PIX 2025.1.2
 
 ## Bug Fixes
 *  Fehler bei der Suche nach Personen über die Weboberfläche
 
+
 # E-PIX 2025.1.1
 
 ## Bug Fixes
 *  Nach dem Hinzufügen einer Person werden die Eingabefelder für die Adresse nicht zurückgesetzt
+
 
 # E-PIX 2025.1.0
 

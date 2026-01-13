@@ -1,6 +1,27 @@
 ![context](https://www.ths-greifswald.de/wp-content/uploads/2019/01/Design-Logo-THS-deutsch-271.png)
 # TTP FHIR Gateway
-Current Docker-Version of TTP-FHIR Gateway: 2025.1.1 (Sept. 2025)
+Current Docker-Version of TTP-FHIR Gateway: 2025.2.0 (Dez. 2025)
+
+# TTP-FHIR Gateway 2025.2.0
+
+## New Feature
+* Neues ExternalProperty **fhirForceProfileDocumentReference** zur Festlegung Export-Profil von Scans (DocumentReference)
+* Neues ExternalProperty **fhirForceProfileProvenance** zur Festlegung Export-Profil von Unterschriften (Provenance)
+* Neues ExternalProperty **fhirForceProfileResearchStudy** zur Festlegung des Exports-Profils für ResourcenTyp 'ResearchStudy' (Consent Domain) mit Default: HL7-D für Abruf ResearchStudy per UUID ohne zusätzliche Parameter
+* ExternalProperty-basierte Ausleitung von Unterschriften mit Custom-Codierungen (Provenance.Signature) auf Grundlage gICS Domain-Config
+* Allgemeine Aktivierung/Deaktivierung der internen Ressourcen-Validierung per ENV-Variable **TTP_FHIR_RESOURCE_VALIDATION_ENABLED** mit *DEFAULT=FALSE*
+* Generische Schnittstelle zur Patientenregistrierung und Pseudonymisierung für fTTP **pseudonymizePatient**
+
+## Improvements
+* Erweiterung Ausleitung ConsentTemplate.Status (*ACTIVE*, *DRAFT*, *INACTIVE*) in TemplateFrame.Status (ACTIVE, DRAFT, RETIRED)
+* Erweiterung Provenance-Ausleitung um Details bezüglich HL7-D AG Einwilligungsmanagement IG2.0 und Multi-Unterschriften und Multi-Consent-Verweis
+* Verschieben des Parameters APIKEY in den HTTP-HEADER in allen Dispatcher-Operations
+* Dependency Update HL7-D FHIR de.einwilligungsmanagement 2.0.2
+* Allgemeine Dependency-Updates (u.a. FHIR HAPI 8.6.0)
+
+## Bugfixes
+* Leerzeichen im gICS-Domänennamen führt zu ungültiger Systemangabe in Consent.policy.rule.Coding bzw Uri
+
 # TTP-FHIR Gateway 2025.1.1
 
 ## Improvements

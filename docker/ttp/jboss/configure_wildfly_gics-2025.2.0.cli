@@ -1,7 +1,30 @@
 # add datasource for gics
 ##########################
+set gicsDbMS=mysql
+if (outcome == "success") of :resolve-expression(expression=${env.TTP_DB_DBMS})
+	set gicsDbMS=${env.TTP_DB_DBMS}
+end-if
+#>available-env< TTP_GICS_DB_DBMS mysql
+if (outcome == "success") of :resolve-expression(expression=${env.TTP_GICS_DB_DBMS})
+	set gicsDbMS=${env.TTP_GICS_DB_DBMS}
+end-if
+if (result ~= "(?i)(mysql)") of :resolve-expression(expression=$gicsDbMS)
+	set gicsDbMS=mysql
+	set gicsDbProtocol=mysql
 set gicsDbHost=mysql
-#>available-env< TTP_DB_HOST mysql
+	set gicsDbPort=3306
+end-if
+if (result ~= "(?i)(maria(db)?)") of :resolve-expression(expression=$gicsDbMS)
+	set gicsDbMS=mariadb
+	set gicsDbProtocol=mariadb
+	set gicsDbHost=mariadb
+	set gicsDbPort=3306
+end-if
+if (result == "") of :resolve-expression(expression=$gicsDbProtocol)
+	echo \<\<\< unknown db-driver for gicsDS, $gicsDbMS
+end-if
+
+#>available-env< TTP_DB_HOST
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_DB_HOST})
 	set gicsDbHost=${env.TTP_DB_HOST}
 end-if
@@ -14,8 +37,7 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_GICS_DB_HO
 	set gicsDbHost=${env.TTP_GICS_DB_HOST}
 end-if
 
-set gicsDbPort=3306
-#>available-env< TTP_DB_PORT 3306
+#>available-env< TTP_DB_PORT
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_DB_PORT})
 	set gicsDbPort=${env.TTP_DB_PORT}
 end-if
@@ -67,12 +89,12 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_GICS_DB_PA
 end-if
 
 if (outcome != "success") of /subsystem=datasources/data-source=gicsDS:read-resource
-    echo \>\>\> add datasources gicsDS
+    echo \>\>\> add datasources gicsDS to $gicsDbProtocol://$gicsDbHost:$gicsDbPort
     data-source add \
         --name=CM12SqlDS \
-        --driver-name=mysql \
+        --driver-name=$gicsDbMS \
         --jndi-name=java:jboss/datasources/gicsDS \
-        --connection-url=jdbc:mysql://$gicsDbHost:$gicsDbPort/$gicsDbName?useSSL=false&allowPublicKeyRetrieval=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin \
+        --connection-url=jdbc:$gicsDbProtocol://$gicsDbHost:$gicsDbPort/$gicsDbName?useSSL=false&allowPublicKeyRetrieval=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Berlin \
         --user-name=$gicsDbUser \
         --password=$gicsDbPass \
         --use-ccm=true \
@@ -174,6 +196,7 @@ set wfOverlaysDir=/entrypoint-wildfly-cli
 if (outcome == "success") of :resolve-expression(expression=${env.WF_OVERLAYS_DIR})
 	set wfOverlaysDir=${env.WF_OVERLAYS_DIR}
 end-if
+
 #>deprecated-env< GICS_AUTH_MODE TTP_GICS_WEB_AUTH_MODE
 #>available-env< TTP_GICS_WEB_AUTH_MODE
 set authMode=${GICS_AUTH_MODE}
@@ -314,7 +337,7 @@ if (result ~= "(?i)(keycloak)") of :resolve-expression(expression=$authMode)
         --content=/WEB-INF/web.xml=$wfOverlaysDir/gics_oidc_web.xml \
         --deployments=gics-web-*.war \
         --redeploy-affected
-    set gicsVersion=2025.1.2
+    set gicsVersion=2025.2.0
     /subsystem=elytron-oidc-client/secure-deployment=gics-web-$gicsVersion.war:add( \
         provider-url=$ttpWebKeycloakBaseUrl/realms/$ttpWebKeycloakRealm, \
         client-id=$ttpWebKeycloakClientId, \
@@ -329,7 +352,7 @@ end-if
 ###################################
 #>available-env< TTP_GICS_SOAP_KEYCLOAK_ENABLE false
 if (result ~= "(?i)(on|true|yes|1)") of :resolve-expression(expression=${env.TTP_GICS_SOAP_KEYCLOAK_ENABLE})
-    echo \>\>\> set system-property for TTP_GICS_SOAP_KEYCLOAK_ENABLE
+    echo \>\>\> set system-property for TTP_GICS_SOAP_KEYCLOAK_ENABLE: true
     /system-property=ttp.auth.soap.keycloak.gics.enabled:add(value=true)
 else
 	try
@@ -392,3 +415,11 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_GICS_SOAP_
 end-if
 echo \>\>\> set system-property env.TTP_GICS_SOAP_CONTEXT to $temp
 /system-property=env.TTP_GICS_SOAP_CONTEXT:add(value=$temp)
+
+# CLI-VERSION
+##############
+try
+    /system-property=org.icmvc.ttp.gics.cli.version:add(value="2025.2.0")
+catch
+	/system-property=org.icmvc.ttp.gics.cli.version:write-attribute(name="value", value="2025.2.0")
+end-try

@@ -5,9 +5,9 @@ set logPattern="%d %-5p [%c] (%t) %s%E%n"
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_LOG_PATTERN})
 	set logPattern=${env.TTP_LOG_PATTERN}
 end-if
-#>available-env< TTP_NOTI_LOG_PATTERN TTP_LOG_PATTERN
-if (outcome == "success") of :resolve-expression(expression=${env.TTP_NOTI_LOG_PATTERN})
-	set logPattern=${env.TTP_NOTI_LOG_PATTERN}
+#>available-env< TTP_FHIR_LOG_PATTERN TTP_LOG_PATTERN
+if (outcome == "success") of :resolve-expression(expression=${env.TTP_FHIR_LOG_PATTERN})
+	set logPattern=${env.TTP_FHIR_LOG_PATTERN}
 end-if
 
 set logLevel="INFO"
@@ -83,7 +83,6 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_FHIR_KEYCL
 		set temp=${env.TTP_FHIR_KEYCLOAK_SERVER_URL}
 		echo \>\>\> set system-property for TTP_FHIR_KEYCLOAK_SERVER_URL
 		/system-property=ttp.fhir.keycloak.baseUrl:add(value=$temp)
-		/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding,value=true)
 	catch
 		echo \<\<\< FAILED can\'t set system-property for TTP_FHIR_KEYCLOAK_SERVER_URL
 	end-try
@@ -254,20 +253,20 @@ else
 	end-try
 end-if
 
-#>available-env< TTP_FHIR_GICS_VALIDATION_ENABLED TRUE
-if (result ~= "(?i)(off|false|no|0)") of :resolve-expression(expression=${env.TTP_FHIR_GICS_VALIDATION_ENABLED})
+#>available-env< TTP_FHIR_RESOURCE_VALIDATION_ENABLED FALSE
+if (result ~= "(?i)(on|true|yes|1)") of :resolve-expression(expression=${env.TTP_FHIR_RESOURCE_VALIDATION_ENABLED})
 	try
-		echo \>\>\> add system-property for TTP_FHIR_GICS_VALIDATION_ENABLED=false
-		/system-property=ttp.fhir.gics.validation.enableValidationGics:add(value=false)
+		echo \>\>\> add system-property for TTP_FHIR_RESOURCE_VALIDATION_ENABLED=true
+		/system-property=ttp.fhir.validation.enableResourceValidation:add(value=true)
 	catch
-		echo \<\<\< FAILED can\'t set system-property for TTP_FHIR_GICS_VALIDATION_ENABLED
+		echo \<\<\< FAILED can\'t set system-property for TTP_FHIR_RESOURCE_VALIDATION_ENABLED
 	end-try
 else
 	try
-		echo \>\>\> add system-property for TTP_FHIR_GICS_VALIDATION_ENABLED=true
-		/system-property=ttp.fhir.gics.validation.enableValidationGics:add(value=true)
+		echo \>\>\> add system-property for TTP_FHIR_RESOURCE_VALIDATION_ENABLED=false
+		/system-property=ttp.fhir.validation.enableResourceValidation:add(value=false)
 	catch
-		echo \<\<\< FAILED can\'t set system-property for TTP_FHIR_GICS_VALIDATION_ENABLED
+		echo \<\<\< FAILED can\'t set system-property for TTP_FHIR_RESOURCE_VALIDATION_ENABLED
 	end-try
 end-if
 
@@ -283,3 +282,11 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_FHIR_GICS_
 		/system-property=ttp.fhir.gics.consent.search.default.resultType:add(value=policy)
 	end-try
 end-if
+
+# CLI-VERSION
+##############
+try
+    /system-property=org.icmvc.ttp.fhir-gw.cli.version:add(value="2025.2.0")
+catch
+	/system-property=org.icmvc.ttp.fhir-gw.cli.version:write-attribute(name="value", value="2025.2.0")
+end-try

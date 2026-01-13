@@ -1,10 +1,10 @@
-![context](https://user-images.githubusercontent.com/12081369/49164566-a5794200-f32f-11e8-8d3a-96244ea00832.png)
+![context](https://user-images.githubusercontent.com/12081369/49164561-a4481500-f32f-11e8-9f0d-fa7a730f4b9d.png)
 
-Current Docker-Version of gPAS: 2025.2.0 (Dez. 2025)<br/>
+Current Docker-Version of E-PIX: 2025.2.0 (Dez. 2025)<br/>
 Current Docker-Version of TTP-FHIR-Gateway: 2025.2.0 (Dec 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-2-0)
 
 ---
-**Hinweis:** Diese README beschäftigt sich nur mit dem Ausführen des gPAS`s ohne vorher ein eigenes gPAS-Image zu bauen. Zum Einsatz kommt dafür nur Docker-Compose mit gemounteten Volumes.
+**Hinweis:** Diese README beschäftigt sich nur mit dem Ausführen des E-PIX`s ohne vorher ein eigenes E-PIX-Image zu bauen. Zum Einsatz kommt dafür nur Docker-Compose mit gemounteten Volumes.
 
 
 ---
@@ -16,17 +16,15 @@ Current Docker-Version of TTP-FHIR-Gateway: 2025.2.0 (Dec 2025), Details from [R
     1. Verwenden von .env-Dateien
     1. Verwenden der Demo-Daten
 1. Logging
-1. Authentifizierung gPAS-Web
+1. Authentifizierung E-PIX-Web
     1. gras
     1. keycloak
     1. keycloak-json (alternative)
     1. KeyCloak-Authentifizierung TTP-FHIR Gateway
-1. Externe gPAS-Datenbank einbinden
+1. Externe E-PIX-Datenbank einbinden
 1. Fehlersuche
 1. Alle verfügbaren Environment-Variablen
 1. Additional Information
-
-**Hinweis:** An vielen Stellen werden die Abkürzungen g**P**AS und g**R**AS direkt nebeneinander verwendet. Dies kann zu Verwechslungen/Irritationen führen. Bitte genau hinschauen.
 
 ---
 ## 1. Übersicht der Verzeichnisstruktur
@@ -35,16 +33,16 @@ Current Docker-Version of TTP-FHIR-Gateway: 2025.2.0 (Dec 2025), Details from [R
 ____compose/
   |____addins/
   |____demo/
-  |  |____demo_gpas.sql
+  |  |____demo_epix.sql
   |____deployments/
-  |  |____gpas-VERSION.ear
-  |  |____gpas-web-VERSION.war
+  |  |____epix-VERSION.ear
+  |  |____epix-web-VERSION.war
   |  |____ths-notification-client-VERSION.ear
   |  |____ths-notification-service-VERSION.war
   |  |____ttp-fhir-gateway-VERSION.war
   |____envs/
   |  |____ttp_commons.env
-  |  |____ttp_gpas.env
+  |  |____ttp_epix.env
   |  |____ttp_fhir.env
   |  |____ttp_gras.env
   |  |____ttp_noti.env
@@ -52,28 +50,28 @@ ____compose/
   |____jboss/
   |  |____configure_ttp_commons.cli
   |  |____configure_wildfly_fhir-VERSION.cli
-  |  |____configure_wildfly_gpas-VERSION.cli
+  |  |____configure_wildfly_epix-VERSION.cli
   |  |____configure_wildfly_gras.cli
   |  |____configure_wildfly_noti_client-VERSION.cli
   |  |____configure_wildfly_noti_service-VERSION.cli
-  |  |____gpas_gras_jboss-web.xml
-  |  |____gpas_gras_web.xml
-  |  |____gpas_oidc_web.xml
+  |  |____epix_gras_jboss-web.xml
+  |  |____epix_gras_web.xml
+  |  |____epix_oidc_web.xml
   |  |____oidc.json
   |____logs/
   |____sqls/
-  |  |____create_database_gpas.sql
+  |  |____create_database_epix.sql
   |  |____create_database_gras.sql
   |  |____create_database_noti.sql
-  |  |____init_database_gras_for_gpas.sql
+  |  |____init_database_gras_for_epix.sql
   |____update_sqls/
-  |  |____update_database_gpas_VERSION.sql
+  |  |____update_database_epix_VERSION.sql
   |  |____...
-  |____ABOUT_gPAS.md (oder .pdf)
+  |____ABOUT_E-PIX.md (oder .pdf)
   |____docker-compose.yml
   |____LICENSE.txt
-  |____README_gPAS.md (oder .pdf)
-  |____ReleaseNotes_gPAS.md (oder .pdf)
+  |____README_E-PIX.md (oder .pdf)
+  |____ReleaseNotes_E-PIX.md (oder .pdf)
 ```
 
 ### Kurz-Übersicht zum Zweck der einzelnen Konfigurationsdateien
@@ -91,13 +89,13 @@ ____compose/
 
 ---
 ## 2. Nutzung
-Sowohl in der Nutzung mit Docker-Compose, als auch in der beschriebenen Nutzung mit Docker-Run wird ein WildFly-Image aus dem Docker-Hub von [mosaicgreifswald/wildfly](https://hub.docker.com/r/mosaicgreifswald/wildfly) heruntergeladen, welches wir für die gPAS-Nutzung vorbereitet haben. Im Gegensatz zu anderen WildFly-Images kann dieses mittels Einbindung von verschiedenen Volumes direkt genutzt werden und muss nicht erst gebaut werden (bauen ist natürlich trotzdem möglich).
+Sowohl in der Nutzung mit Docker-Compose, als auch in der beschriebenen Nutzung mit Docker-Run wird ein WildFly-Image aus dem Docker-Hub von [mosaicgreifswald/wildfly](https://hub.docker.com/r/mosaicgreifswald/wildfly) heruntergeladen, welches wir für die E-PIX-Nutzung vorbereitet haben. Im Gegensatz zu anderen WildFly-Images kann dieses mittels Einbindung von verschiedenen Volumes direkt genutzt werden und muss nicht erst gebaut werden (bauen ist natürlich trotzdem möglich).
 
-Egal wie der gPAS gestartet wird, im Anschluss wird die gPAS-Web-Oberfläche mit dieser Adresse geöffnet: **[http://localhost:8080/gpas-web](http://localhost:8080/gpas-web/html/public/index.xhtml)**
+Egal wie der E-PIX gestartet wird, im Anschluss wird die E-PIX-Web-Oberfläche mit dieser Adresse geöffnet: **[http://localhost:8080/epix-web](http://localhost:8080/epix-web/html/public/index.xhtml)**
 
 ---
 #### 2.1. Berechtigungen setzen
-Bevor der gPAS gestartet werden kann, müssen Berechtigungen auf den Ordnern geändert werden. Diese sind notwendig, damit der Container nicht nur die Ordner lesen, sondern auch beschreiben kann.
+Bevor der E-PIX gestartet werden kann, müssen Berechtigungen auf den Ordnern geändert werden. Diese sind notwendig, damit der Container nicht nur die Ordner lesen, sondern auch beschreiben kann.
 
 ```sh
 # für den MySQL-Container
@@ -137,8 +135,8 @@ services:
   wildfly:
     env_file:
       - ./envs/ttp_commons.env
+      - ./envs/ttp_epix.env
       - ./envs/ttp_fhir.env
-      - ./envs/ttp_gpas.env
       - ./envs/ttp_gras.env
       - ./envs/ttp_noti.env
       - ./envs/wf_commons.env
@@ -154,13 +152,13 @@ Die einfachste Möglichkeit die Demo-Daten einzuspielen, ist vor dem Hochfahren 
 ## 3. Logging
 Wem die Standard-Log-Einstellungen nicht genügen, kann diese ändern.<br>
 Zum einen kann mit der ENV-Variable `WF_SYSTEM_LOG_LEVEL` der Log-Level für den Console-Handler geändert werden (Default ist *INFO*),
-zum anderen kann mit `TTP_GPAS_LOG_TO` *FILE* eine separate Log-Datei für den gPAS angelegt werden.
+zum anderen kann mit `TTP_EPIX_LOG_TO` *FILE* eine separate Log-Datei für den E-PIX angelegt werden.
 Die Log-Datei wird im WildFly-Container unter `/entrypoint-wildfly-logs` abgelegt und kann wie folgt gemountet werden.
 
 ```ini
 WF_SYSTEM_LOG_LEVEL=DEBUG
-TTP_GPAS_LOG_TO=FILE
-TTP_GPAS_LOG_LEVEL=INFO
+TTP_EPIX_LOG_TO=FILE
+TTP_EPIX_LOG_LEVEL=INFO
 ```
 
 docker-compose.yml:
@@ -173,27 +171,27 @@ services:
 ```
 
 ---
-## 4. Authentifizierung gPAS-Web
-In der Standard-Ausgabe vom gPAS ist keine Authentifizierung notwendig. Möchte man den gPAS jedoch nur für bestimmte Nutzergruppen zugänglich machen, oder sogar das Anlegen von neuen Domänen beschränken, können zwei Authentifizierungsverfahren angewendet werden. `gRAS` und `KeyCloak`, wobei es für KeyCloak zwei verschiedene Varianten gibt.
+## 4. Authentifizierung E-PIX-Web
+In der Standard-Ausgabe vom E-PIX ist keine Authentifizierung notwendig. Möchte man den E-PIX jedoch nur für bestimmte Nutzergruppen zugänglich machen, oder sogar das Anlegen von neuen Domänen beschränken, können zwei Authentifizierungsverfahren angewendet werden. `gras` und `keycloak`, wobei es für KeyCloak zwei verschiedene Varianten gibt.
 
 ---
 #### 4.1. gRAS-Authentifizierung
-Um diese Variante zu nutzen, muss die ENV-Variable `TTP_GPAS_WEB_AUTH_MODE` den Wert *gras* bekommen:
+Um diese Variante zu nutzen, muss die ENV-Variable `TTP_EPIX_WEB_AUTH_MODE` den Wert *gras* bekommen:
 
 ```ini
-TTP_GPAS_WEB_AUTH_MODE=gras
+TTP_EPIX_WEB_AUTH_MODE=gras
 ```
 
 **Hinweis:** Befindet sich die gRAS-Datenbank nicht im lokalen Docker-Compose-Netzwerk, müssen die Variablen für die DB-Verbindung ebenfalls angepasst werden.
 
 
 ---
-#### 4.2. KeyCloak-Authentifizierung gPAS-Web
+#### 4.2. KeyCloak-Authentifizierung
 Statt gRAS kann auch eine KeyCloak-Authentifizierung eingesetzt werden.<br>
-Neben der ENV-Variable `TTP_GPAS_WEB_AUTH_MODE` mit den Wert *keycloak*, müssen weitere Variablen für die KeyCloak-Credentials hinzugefügt werden.
+Neben der ENV-Variable `TTP_EPIX_WEB_AUTH_MODE` mit den Wert *keycloak*, müssen weitere Variablen für die KeyCloak-Credentials hinzugefügt werden.
 
 ```ini
-TTP_GPAS_WEB_AUTH_MODE=keycloak
+TTP_EPIX_WEB_AUTH_MODE=keycloak
 TTP_KEYCLOAK_SERVER_URL=<PROTOCOL://HOST_OR_IP:PORT/auth/>
 TTP_KEYCLOAK_SSL_REQUIRED=<none|external|all>
 TTP_KEYCLOAK_REALM=<REALM>
@@ -217,7 +215,7 @@ HTTPS is required by default for external requests. Valid values are 'all', 'ext
 
 ---
 
-#### 4.3. KeyCloak-Authentifizierung gPAS-Web (die JSON-Alternative)
+#### 4.3. KeyCloak-Authentifizierung E-PIX-Web (die JSON-Alternative)
 
 Für diese Variante muss eine JSON-Datei `oidc.json` im jboss-Verzeichnis angepasst werden, dessen Werte aus der lokalen KeyCloak-Instanz entnommen werden können.
 
@@ -236,15 +234,15 @@ Für diese Variante muss eine JSON-Datei `oidc.json` im jboss-Verzeichnis angepa
 ```
 **Hinweis:** Wenn `use-resource-role-mappings` gleich *true* ist, müssen die Rollen am Client definiert sein.
 
-Zusätzlich braucht nur der Wert der ENV-Variable `TTP_GPAS_WEB_AUTH_MODE` auf *keycloak-json* gesetzt werden und der WildFly bezieht die KeyCloak-Credentials aus der JSON-Datei.
+Zusätzlich braucht nur der Wert der ENV-Variable `TTP_EPIX_WEB_AUTH_MODE` auf *keycloak-json* gesetzt werden und der WildFly bezieht die KeyCloak-Credentials aus der JSON-Datei.
 
 ```ini
-TTP_GPAS_WEB_AUTH_MODE: keycloak-json
+TTP_EPIX_WEB_AUTH_MODE: keycloak-json
 ```
 ---
 
 #### 4.4. KeyCloak-Authentifizierung TTP-FHIR Gateway
-Ab TTP-FHIR Gateway Version 2.0.0 ist eine Absicherung der TTP-FHIR-Gateway-Schnittstelle je Endpunkt, wie zum Beispiel gPAS, vorgesehen und nach Bedarf konfigurierbar.
+Ab TTP-FHIR Gateway Version 2.0.0 ist eine Absicherung der TTP-FHIR-Gateway-Schnittstelle je Endpunkt, wie zum Beispiel E-PIX, vorgesehen und nach Bedarf konfigurierbar.
 
 Alle erforderlichen Informationen werden in der separat bereitgestellten Dokumentation erläutert.
 
@@ -258,16 +256,16 @@ Diese Dokumentation umfasst:
 - Test und Benutzung des TTP-FHIR-Gateways mit Keycloak-Authentifizierung anhand von Beispielen
 
 ---
-## 5. Externe gPAS-Datenbank einrichten
-Es ist möglich den gPAS mit einer existierenden Datenbank zu verbinden. Wenn sichergestellt ist, dass die DB vom Docker-Host erreichbar ist, müssen folgende ENV-Variablen angepasst werden:
+## 5. Externe E-PIX-Datenbank einrichten
+Es ist möglich den E-PIX mit einer existierenden Datenbank zu verbinden. Wenn sichergestellt ist, dass die DB vom Docker-Host erreichbar ist, müssen folgende ENV-Variablen angepasst werden:
 
 ```ini
-TTP_GPAS_DB_DBMS=(mysql|mariadb|postgresql)
-TTP_GPAS_DB_HOST=<HOST_OR_IP>
-TTP_GPAS_DB_PORT=<PORT>
-TTP_GPAS_DB_NAME=<DB_NAME>
-TTP_GPAS_DB_USER=<DB_USER>
-TTP_GPAS_DB_PASS=<DB_PASSWORD>
+TTP_EPIX_DB_DBMS=(mysql|mariadb)
+TTP_EPIX_DB_HOST=<HOST_OR_IP>
+TTP_EPIX_DB_PORT=<PORT>
+TTP_EPIX_DB_NAME=<DB_NAME>
+TTP_EPIX_DB_USER=<DB_USER>
+TTP_EPIX_DB_PASS=<DB_PASSWORD>
 ```
 
 Zusätzlich muss die .yml-Datei angepasst werden. Da die externe DB in meisten Fällen bereits läuft, muss der WildFly-Container nicht warten, bis der MySQL-Port *3306* verfügbar ist. Aus diesem Grund können die Werte für `depends_on`, `entrypoint` und `command` entfernt oder auskommentiert werden:
@@ -310,25 +308,25 @@ docker-compose up wildfly
 ## 7. Alle verfügbaren Environment-Variablen
 In den env-Dateien stehen weitere Details zu den einzelnen Variablen.
 
-#### ./envs/ttp_gpas.env
+#### ./envs/ttp_epix.env
 | Kategorie | Variable                          | verfügbare Werte oder Schema           | default                                             |
 |-----------|-----------------------------------|----------------------------------------|-----------------------------------------------------|
-| Logging   | TTP_GPAS_LOG_TO                   | CONSOLE;FILE                           | CONSOLE                                             |
-| Logging   | TTP_GPAS_LOG_LEVEL                | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                                                |
-| Logging   | TTP_GPAS_LOG_PATTERN              | \<STRING\>                             | (from TTP_LOG_PATTERN)                              |
-| Database  | TTP_GPAS_DB_DBMS **<-- neu**      | mysql, mariadb, postgresql             | mysql                                               |
-| Database  | TTP_GPAS_DB_HOST                  | \<STRING\>                             | mysql                                               |
-| Database  | TTP_GPAS_DB_PORT                  | 0-65535                                | 3306                                                |
-| Database  | TTP_GPAS_DB_NAME                  | \<STRING\>                             | gpas                                                |
-| Database  | TTP_GPAS_DB_USER                  | \<STRING\>                             | gpas_user                                           |
-| Database  | TTP_GPAS_DB_PASS                  | \<STRING\>                             | gpas_password                                       |
-| Security  | TTP_GPAS_WEB_AUTH_MODE            | gras, keycloak, keycloak-json          | -                                                   |
-| Security  | TTP_GPAS_SOAP_KEYCLOAK_ENABLE     | true, false                            | -                                                   |
-| Security  | TTP_GPAS_SOAP_ROLE_USER_NAME      | \<STRING\>                             | role.gpas.user                                      |
-| Security  | TTP_GPAS_SOAP_ROLE_USER_SERVICES  | \<STRING\>                             | /gpas/gpasService,/gpas/gpasServiceWithNotification |
-| Security  | TTP_GPAS_SOAP_ROLE_ADMIN_NAME     | \<STRING\>                             | role.gpas.admin                                     |
-| Security  | TTP_GPAS_SOAP_ROLE_ADMIN_SERVICES | \<STRING\>                             | /gpas/DomainService                                 |
-| Security  | TTP_GPAS_AUTH_DOMAIN_ROLES        | DISABLED, FORCED, IMPLIED              | IMPLIED                                             |
+| Logging   | TTP_EPIX_LOG_TO                   | CONSOLE;FILE                           | CONSOLE                                             |
+| Logging   | TTP_EPIX_LOG_LEVEL                | TRACE, DEBUG, INFO, WARN, ERROR, FATAL | INFO                                                |
+| Logging   | TTP_EPIX_LOG_PATTERN              | \<STRING\>                             | (from TTP_LOG_PATTERN)                              |
+| Database  | TTP_EPIX_DB_DBMS **<-- neu**      | mysql, mariadb                         | mysql                                               |
+| Database  | TTP_EPIX_DB_HOST                  | \<STRING\>                             | mysql                                               |
+| Database  | TTP_EPIX_DB_PORT                  | 0-65535                                | 3306                                                |
+| Database  | TTP_EPIX_DB_NAME                  | \<STRING\>                             | epix                                                |
+| Database  | TTP_EPIX_DB_USER                  | \<STRING\>                             | epix_user                                           |
+| Database  | TTP_EPIX_DB_PASS                  | \<STRING\>                             | epix_password                                       |
+| Security  | TTP_EPIX_WEB_AUTH_MODE            | gras, keycloak, keycloak-json          | -                                                   |
+| Security  | TTP_EPIX_SOAP_KEYCLOAK_ENABLE     | true, false                            | -                                                   |
+| Security  | TTP_EPIX_SOAP_ROLE_USER_NAME      | \<STRING\>                             | role.epix.user                                      |
+| Security  | TTP_EPIX_SOAP_ROLE_USER_SERVICES  | \<STRING\>                             | /epix/epixService,/epix/epixServiceWithNotification |
+| Security  | TTP_EPIX_SOAP_ROLE_ADMIN_NAME     | \<STRING\>                             | role.epix.admin                                     |
+| Security  | TTP_EPIX_SOAP_ROLE_ADMIN_SERVICES | \<STRING\>                             | /epix/epixManagementService                         |
+| Security  | TTP_EPIX_AUTH_DOMAIN_ROLES        | DISABLED, FORCED, IMPLIED              | IMPLIED                                             |
 
 #### ./envs/ttp_noti.env
 | Kategorie | Variable              | verfügbare Werte oder Schema           | default                |
@@ -359,6 +357,8 @@ In den env-Dateien stehen weitere Details zu den einzelnen Variablen.
 | Security  | TTP_FHIR_KEYCLOAK_CLIENT_SECRET              | \<STRING\>                             | -                      |
 | Security  | TTP_FHIR_KEYCLOAK_USE_RESOURCE_ROLE_MAPPINGS | true, false                            | false                  |
 | Security  | TTP_FHIR_KEYCLOAK_CONFIDENTIAL_PORT          | 0-65535                                | 8443                   |
+| Security  | TTP_FHIR_KEYCLOAK_ROLE_EPIX_USER             | \<STRING\>                             | role.epix.user         |
+| Security  | TTP_FHIR_KEYCLOAK_ROLE_EPIX_ADMIN            | \<STRING\>                             | role.epix.admin        |
 
 #### ./envs/ttp_gras.env
 | Kategorie | Variable         | verfügbare Werte oder Schema | default       |
@@ -433,27 +433,28 @@ In den env-Dateien stehen weitere Details zu den einzelnen Variablen.
 
 ---
 # Additional Information #
-The gPAS was developed by the University Medicine Greifswald and published in 2013 as part of the [MOSAIC-Project](https://ths-greifswald.de/mosaic "") (funded by the DFG HO 1937/2-1).
-
-Selected functionalities of gPAS were developed as part of the following research projects:
+Selected functionalities of E-PIX were developed as part of the following research projects:
 - MIRACUM (funded by the German Federal Ministry of Education and Research 01ZZ1801M)
+- NUM-CODEX (funded by the German Federal Ministry of Education and Research 01KX2021)
 
 ## Credits ##
 **Concept and implementation:** L. Geidel <br/>
-**Web-Client:** A. Blumentritt, M. Bialke, F.M. Moser <br/>
+**Web-Client:** A. Blumentritt, F.M. Moser <br/>
+**Keycloak:** Peter Penndorf, R. Schuldt, F.M. Moser <br/>
 **Docker:** R. Schuldt <br/>
-**TTP-FHIR Gateway für gPAS:** M. Bialke, P. Penndorf, L. Geidel, S. Lang, F.M. Moser
+**Bloom-Filter:** C. Hampf <br/>
+**TTP-FHIR Gateway for E-PIX:** M. Bialke, F.M. Moser, S. Lang <br/>
 
 ## License ##
 **License:** AGPLv3, https://www.gnu.org/licenses/agpl-3.0.en.html <br/>
-**Copyright:** 2013 - 2025 University Medicine Greifswald <br/>
+**Copyright:** 2009 - 2025 University Medicine Greifswald <br/>
 **Contact:** https://www.ths-greifswald.de/kontakt/
 
 ## Publications ##
-- https://dx.doi.org/10.3414/ME14-01-0133
-- https://dx.doi.org/10.1186/s12967-015-0545-6
-- https://dx.doi.org/10.3205/24gmds102
-- https://dx.doi.org/10.3205/24gmds101
+- Hampf et al. 2020 "Assessment of scalability and performance of the record linkage tool E‑PIX® in managing multi‑million patients in research projects at a large university hospital in Germany", https://translational-medicine.biomedcentral.com/articles/10.1186/s12967-020-02257-4
+- Gött et al. 2022 "3LGM2IHE: Requirements for data-protection-compliant research infrastructures. A systematic comparison of theory and practice-oriented implementation", http://dx.doi.org/10.1055/a-1950-2791
+- http://dx.doi.org/10.3414/ME14-01-0133
+- http://dx.doi.org/10.1186/s12967-015-0545-6
 
 ## Supported languages ##
 German, English

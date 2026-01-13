@@ -96,3 +96,10 @@ if (result ~= "(?i).*console.*") of :resolve-expression(expression=$logTo)
 	end-try
 end-if
 
+# CLI-VERSION
+##############
+try
+    /system-property=org.icmvc.ttp.noti-c.cli.version:add(value="2025.2.0")
+catch
+	/system-property=org.icmvc.ttp.noti-c.cli.version:write-attribute(name="value", value="2025.2.0")
+end-try

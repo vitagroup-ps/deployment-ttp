@@ -1,7 +1,39 @@
 ![context](https://user-images.githubusercontent.com/12081369/49164555-a27e5180-f32f-11e8-8725-7b97e35134b5.png)
 
-Current Version: 2025.1.2 (Okt. 2025)<br/>
-Current Docker-Version of TTP-FHIR-Gateway: 2025.1.1 (Sept 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-1-1)
+Current Version: 2025.2.0 (Dez. 2025)<br/>
+Current Docker-Version of TTP-FHIR-Gateway: 2025.2.0 (Dec 2025), Details from [ReleaseNotes](https://www.ths-greifswald.de/ttpfhirgw/releasenotes/2025-2-0)
+
+# gICS 2025.2.0
+
+## New Features
+*  Unterschriften: Umfangreiche Konfiguration je Domäne, Dokumententyp und Vorlage
+*  Unterschriften: Konfigurierbare Verbindlichkeit der Unterschrift von Unterzeichnern oder Gruppen
+*  Unterschriften: Unterstützung für Dokumente ohne Unterschriften
+*  Unterschriften: Unterstützung für mehrere Unterschriften je Gruppe, bspw. Elternteile
+*  Unterschriften: Anpassbare Bezeichnungen für Typen von Unterzeichnern
+*  Unterschriften: Konfigurierbare Beweispflicht durch Scan oder digitale Unterschrift für mittels Datum erfasste Unterschriften
+*  Einbettung der Teilnehmeransicht mit Dokumenten und Policies in externe Anwendungen (Embedded Mode)
+*  Angabe eines externen Ablageortes als Alternative für das Hochladen eines Scans
+*  Option zur Archivierung nicht mehr benötigter Vorlagen
+*  Neue Freitextfelder für Radio-Optionen und Textausgabe
+*  Einfache Verwendung vorhandener ExpressionUtils beim Konfigurieren einer ExpirationExpression in Vorlagen
+*  Möglichkeit zum Import bereits vorhandener Domänen unter neuem Namen
+
+## Improvements
+*  Einfache Eingabe von Ablauf-Variablen beim Ausfüllen eines Dokuments mit ExpirationExpression
+*  Im- und Export von Zuordnungen von Einwilligungen zu Widerrufen
+*  Verbesserte Erkennungsrate beim Einlesen von Papiereinwilligungen durch neuronale Netze
+*  Optionaler Import der Domäneneinstellungen beim Import von Vorlagen
+*  Kalender für die Eingabe eines Datums in Freitextfeldern
+*  Maske für die Eingabe eines Datums in Freitextfeldern
+*  Konfiguration der Sprache von Beschriftungen in generierten PDFs
+*  Anpassung der Formulierung bzgl. Endgültigkeit von Widerrufen und sonstigen Ausschlüssen
+*  Shortcut zum Bearbeiten der ausgewählten Domäne
+
+## Bug Fixes
+*  QR Codes in ausgedruckten Vorlagen sind verzogen
+*  Eingebettete Formulare zeigen beim Auftreten eines unerwarteten Fehlers das Hauptmenü an
+
 
 # gICS 2025.1.2
 

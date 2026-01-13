@@ -1,7 +1,30 @@
 # add datasource for epix
 ##########################
+set epixDbMS=mysql
+if (outcome == "success") of :resolve-expression(expression=${env.TTP_DB_DBMS})
+	set epixDbMS=${env.TTP_DB_DBMS}
+end-if
+#>available-env< TTP_EPIX_DB_DBMS mysql
+if (outcome == "success") of :resolve-expression(expression=${env.TTP_EPIX_DB_DBMS})
+	set epixDbMS=${env.TTP_EPIX_DB_DBMS}
+end-if
+if (result ~= "(?i)(mysql)") of :resolve-expression(expression=$epixDbMS)
+	set epixDbMS=mysql
+	set epixDbProtocol=mysql
 set epixDbHost=mysql
-#>available-env< TTP_DB_HOST mysql
+	set epixDbPort=3306
+end-if
+if (result ~= "(?i)(maria(db)?)") of :resolve-expression(expression=$epixDbMS)
+	set epixDbMS=mariadb
+	set epixDbProtocol=mariadb
+	set epixDbHost=mariadb
+	set epixDbPort=3306
+end-if
+if (result == "") of :resolve-expression(expression=$epixDbProtocol)
+	echo \<\<\< unknown db-driver for epixDS, $epixDbMS
+end-if
+
+#>available-env< TTP_DB_HOST
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_DB_HOST})
 	set epixDbHost=${env.TTP_DB_HOST}
 end-if
@@ -14,8 +37,7 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_EPIX_DB_HO
 	set epixDbHost=${env.TTP_EPIX_DB_HOST}
 end-if
 
-set epixDbPort=3306
-#>available-env< TTP_DB_PORT 3306
+#>available-env< TTP_DB_PORT
 if (outcome == "success") of :resolve-expression(expression=${env.TTP_DB_PORT})
 	set epixDbPort=${env.TTP_DB_PORT}
 end-if
@@ -67,12 +89,12 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_EPIX_DB_PA
 end-if
 
 if (outcome != "success") of /subsystem=datasources/data-source=EPIXDS:read-resource
-    echo \>\>\> add datasources EPIXDS
+    echo \>\>\> add datasources EPIXDS to $epixDbProtocol://$epixDbHost:$epixDbPort
     data-source add \
         --name=EPIXDS \
-        --driver-name=mysql \
+        --driver-name=$epixDbMS \
         --jndi-name=java:jboss/datasources/EPIXDS \
-        --connection-url=jdbc:mysql://$epixDbHost:$epixDbPort/$epixDbName?useSSL=false&allowPublicKeyRetrieval=true \
+        --connection-url=jdbc:$epixDbProtocol://$epixDbHost:$epixDbPort/$epixDbName?useSSL=false&allowPublicKeyRetrieval=true \
         --user-name=$epixDbUser \
         --password=$epixDbPass \
         --use-ccm=true \
@@ -168,6 +190,7 @@ set wfOverlaysDir=/entrypoint-wildfly-cli
 if (outcome == "success") of :resolve-expression(expression=${env.WF_OVERLAYS_DIR})
 	set wfOverlaysDir=${env.WF_OVERLAYS_DIR}
 end-if
+
 #>deprecated-env< EPIX_AUTH_MODE TTP_EPIX_WEB_AUTH_MODE
 #>available-env< TTP_EPIX_WEB_AUTH_MODE
 set authMode=${EPIX_AUTH_MODE}
@@ -308,7 +331,7 @@ if (result ~= "(?i)(keycloak)") of :resolve-expression(expression=$authMode)
         --content=/WEB-INF/web.xml=$wfOverlaysDir/epix_oidc_web.xml \
         --deployments=epix-web-*.war \
         --redeploy-affected
-    set epixVersion=2025.1.2
+    set epixVersion=2025.2.0
     /subsystem=elytron-oidc-client/secure-deployment=epix-web-$epixVersion.war:add( \
         provider-url=$ttpWebKeycloakBaseUrl/realms/$ttpWebKeycloakRealm, \
         client-id=$ttpWebKeycloakClientId, \
@@ -386,3 +409,11 @@ if (outcome == "success") of :resolve-expression(expression=${env.TTP_EPIX_SOAP_
 end-if
 echo \>\>\> set system-property env.TTP_EPIX_SOAP_CONTEXT to $temp
 /system-property=env.TTP_EPIX_SOAP_CONTEXT:add(value=$temp)
+
+# CLI-VERSION
+##############
+try
+    /system-property=org.icmvc.ttp.epix.cli.version:add(value="2025.2.0")
+catch
+	/system-property=org.icmvc.ttp.epix.cli.version:write-attribute(name="value", value="2025.2.0")
+end-try
